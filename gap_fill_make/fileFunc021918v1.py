@@ -4,6 +4,10 @@
 
 import os, re, shutil
 
+#####################################
+# SUGGESTED VARIABLES TO USE IN FILES USING THESE FUNCTIONS
+#####################################
+
 # get the absolute file path of the current working directory of program
 abs_cwd_file_path = os.path.abspath('.') # set the destination file path to be the current working directory or cwd
 
@@ -15,6 +19,10 @@ file_path_list = [] # a list to hold all finalized folder paths (not folder name
 
 # dummy variables
 user_file_ext_input = "" # for functions taken from other programs
+
+#####################################
+# END SUGGESTED VARIABLES TO USE IN FILES USING THESE FUNCTIONS
+#####################################
 
 def find_abs_src_path(path,filename):
 	# SOURCE FILE
@@ -28,9 +36,9 @@ def find_abs_src_path(path,filename):
 
 	return src_file_path_name
 
-def find_abs_dst_path(path,filename,regex):
+def find_abs_dst_path(path,filename):
 	# dst_file_path_name = os.path.join(search_result_path,filename + "_" + "copy")
-	dst_file_path_name = os.path.join(path,regex.sub("_copy" + user_file_ext_input,filename)) # use regex substitution to change the file name so that shutil.copyfile() will work as it won't work if the names are identical for some reason?
+	dst_file_path_name = os.path.join(path,filename) # use regex substitution to change the file name so that shutil.copyfile() will work as it won't work if the names are identical for some reason?
 
 	return dst_file_path_name
 
@@ -43,7 +51,7 @@ def copy_file_sh(filename,src,dst):
 
 	shutil.copyfile(src, dst)
 
-def scanFolder(foldername_path):
+def scanFolder(foldername_path,folder_path_list):
 	# this function scans the parent folder and subfolders
 	# it then adds them to a list so that its files can be scanned individually
 
@@ -69,7 +77,7 @@ def scanFolder(foldername_path):
 		else:
 			continue # otherwise skip and keep going
 
-def scanFile(foldername_path,regex):
+def scanFile(foldername_path,regex,file_path_list):
 	# the file scanner that gets all of the files and pushes them into a list after we get the full string path to it
 	
 	dirs = os.listdir(foldername_path) # list all files of any kind (i.e. all file and folder names)

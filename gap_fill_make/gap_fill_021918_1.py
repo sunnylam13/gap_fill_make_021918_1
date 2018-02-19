@@ -53,10 +53,21 @@ prefix_regex2 = re.compile(r'''
 #####################################
 
 def analyze_files(foldername):
-	pass
+	print(fileTools.scanFolder(foldername)) # for testing
 
 def gap_fill(foldername):
 	# figure out what the given prefix is using regex and the groups for substitution
 	# analyze the number of said files and determine what the gap is
 	# fix the gap by renaming the later files so that the gap is closed
 	pass
+
+#####################################
+# EXECUTION
+#####################################
+
+analyze_files(user_input_folder)
+
+#####################################
+# END EXECUTION
+#####################################
+
