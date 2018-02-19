@@ -12,13 +12,13 @@ import os, re, shutil
 abs_cwd_file_path = os.path.abspath('.') # set the destination file path to be the current working directory or cwd
 
 # a list of all folders and subfolders to be analyzed
-folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
+# folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
 # a list of all files to be analyzed
-file_path_list = [] # a list to hold all finalized folder paths (not folder names)
+# file_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
 # dummy variables
-user_file_ext_input = "" # for functions taken from other programs
+# user_file_ext_input = "" # for functions taken from other programs
 
 #####################################
 # END SUGGESTED VARIABLES TO USE IN FILES USING THESE FUNCTIONS
@@ -46,7 +46,6 @@ def copy_file_sh(filename,src,dst):
 	# COPY PROCESS
 	# copy the files from their current location into a new folder (see Scratch file for thoughts on where new folder should be)
 
-	# print("Found a file with the %s ending." % (user_file_ext_input))
 	print("Copying file: %s" % (filename))
 
 	shutil.copyfile(src, dst)
