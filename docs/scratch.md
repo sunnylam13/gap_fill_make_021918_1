@@ -59,5 +59,23 @@ you would use `group(3)` to get the number... (https://regexr.com/3l1dr)
 You could use the regex to do both the prefix and the number analysis actually and skip using just `(^[a-z]+)` for example.
 
 
+## Monday, February 19, 2018 4:55 PM
+
+	## Testing
+
+	mo_a1 = prefix_regex2.search("spam001.txt")
+	print(mo_a1)
+	# test groupings
+	print(mo_a1.group(1))
+	print(mo_a1.group(2))
+	print(mo_a1.group(3))
+
+results in
+
+	<_sre.SRE_Match object; span=(0, 7), match='spam001'>
+	spam
+	00
+	1
+
 
 

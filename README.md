@@ -8,6 +8,10 @@ Alternatively, this program inserts gaps into numbered files so that a new file 
 
 incomplete
 
+## Test Folder
+
+	docs/testFolder1
+
 ## Tags
 
 gap, filenames, renaming
