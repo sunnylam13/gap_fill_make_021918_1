@@ -23,7 +23,7 @@ user_input_folder = input("Please enter the path to the folder you want to fill 
 # REGEX
 #####################################
 
-
+prefix_regex1 = re.compile(r'(^[a-z]+)')
 
 #####################################
 # END REGEX

@@ -8,5 +8,9 @@ Alternatively, this program inserts gaps into numbered files so that a new file 
 
 incomplete
 
+## Tags
+
+gap, filenames, renaming
+
 ## References
 

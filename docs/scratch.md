@@ -34,8 +34,30 @@ You'd probably have to do it character by character...
 
 The program would have to know the exact prefix or you'd have to write code to analyze the more annoying cases.
 
-### Tags
+The challenge with analyzing the numbers is that the format could vary greatly...
 
-gap, filenames, renaming
+	spam001.txt
+
+	spam0001.txt
+
+	spam-0001.txt
+
+We should assume the numbering is in the:
+
+	spam001.txt
+
+format for this program case...
+
+If: 
+
+	spam001.txt
+
+	(^[a-z]+)(0*)([1-9]*)
+
+you would use `group(3)` to get the number... (https://regexr.com/3l1dr)
+
+You could use the regex to do both the prefix and the number analysis actually and skip using just `(^[a-z]+)` for example.
+
+
 
 
