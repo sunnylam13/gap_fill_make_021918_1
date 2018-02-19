@@ -43,9 +43,9 @@ prefix_regex2 = re.compile(r'''
 # mo_a1 = prefix_regex2.search("spam001.txt")
 # print(mo_a1)
 # # test groupings
-# print(mo_a1.group(1))
-# print(mo_a1.group(2))
-# print(mo_a1.group(3))
+# print(mo_a1.group(1)) # spam
+# print(mo_a1.group(2)) # 00
+# print(mo_a1.group(3)) # 1
 
 # # this regex version handles file paths rather than file names
 # # https://regexr.com/3l1go
@@ -90,15 +90,22 @@ filename_list_f = []
 # END VARIABLES
 #####################################
 
-def check_numbering(file_path_list,regex):
+def check_numbering(filename_list,regex):
 	# check files and locate numbering gaps
-	for file in file_path_list:
+	for file in filename_list:
 		analyze_filename = regex.search(file)
 
-def analyze_files(foldername,file_path_list):
-	filename_list_f = fileTools.scanFile(foldername,file_path_list)
-	print(file_path_list) # for testing
-	print(filename_list_f) # for testing
+def analyze_files(foldername,filename_list,file_path_list):
+	# generate list of file names and corresponding list of paths to each of those file names that will be altered
+	filename_list = fileTools.scanFile(foldername,file_path_list)
+
+	# for testing
+	print("The file name list is:  ")
+	print(filename_list)
+	print("The file name path list is:  ")
+	print(file_path_list)
+
+	check_numbering(filename_list,prefix_regex2)
 
 def fix_numbering(file_path_list):
 	# rename all later files after a gap is discovered so numbering is in sync
@@ -109,7 +116,7 @@ def fix_numbering(file_path_list):
 #####################################
 
 # analyze_files(user_input_folder,folder_path_list,file_path_list)
-analyze_files(user_input_folder,file_path_list)
+analyze_files(user_input_folder,filename_list_f,file_path_list)
 
 #####################################
 # END EXECUTION
