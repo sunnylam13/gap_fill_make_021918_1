@@ -80,20 +80,27 @@ abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be
 # # a list of all folders and subfolders to be analyzed
 # folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
-# a list of all files to be analyzed
-file_path_list = [] # a list to hold all finalized folder paths (not folder names)
-
 # list of filenames that can be indexed to the correct file path list
 filename_list_f = []
+
+# a list of all files to be analyzed
+file_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
 #####################################
 # END VARIABLES
 #####################################
 
-def check_numbering(filename_list,regex):
+def check_numbering(filename_list,file_path_list,regex):
 	# check files and locate numbering gaps
 	for file in filename_list:
 		analyze_filename = regex.search(file)
+		if int(analyze_filename.group(3)) == (filename_list.index(file) + 1):
+			# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
+			# if it matches, do nothing
+			continue
+		else:
+			# set the number to match the current index number
+			fix_numbering(filename_list,file_path_list,regex)
 
 def analyze_files(foldername,filename_list,file_path_list):
 	# generate list of file names and corresponding list of paths to each of those file names that will be altered
@@ -105,10 +112,13 @@ def analyze_files(foldername,filename_list,file_path_list):
 	print("The file name path list is:  ")
 	print(file_path_list)
 
-	check_numbering(filename_list,prefix_regex2)
+	check_numbering(filename_list,file_path_list,prefix_regex2)
 
-def fix_numbering(file_path_list):
+def fix_numbering(filename_list,file_path_list,regex):
 	# rename all later files after a gap is discovered so numbering is in sync
+	# change the filename using regex substitution
+	# then find its corresponding position on the file_path_list
+	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
 	pass
 
 #####################################
