@@ -8,12 +8,16 @@
 # xxxx
 
 import os, re, shutil
+import fileFunc021918v1 as fileTools
+
+# testing
+# print(fileTools.abs_cwd_file_path)
 
 #####################################
 # USER INPUT
 #####################################
 
-user_input_folder = input("Please enter the path to the folder you want to fill the gaps in.  We suggest this be in the form of a string:  ")
+# user_input_folder = input("Please enter the path to the folder you want to fill the gaps in.  We suggest this be in the form of a string:  ")
 
 #####################################
 # END USER INPUT
