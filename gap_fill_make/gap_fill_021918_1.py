@@ -63,6 +63,11 @@ file_path_list = [] # a list to hold all finalized folder paths (not folder name
 #####################################
 
 def check_numbering(file_path_list):
+	# check files and locate numbering gaps
+	pass
+
+def fix_numbering(file_path_list):
+	# rename all later files after a gap is discovered so numbering is in sync
 	pass
 
 def analyze_files(foldername,folder_path_list,file_path_list):
