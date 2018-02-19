@@ -48,12 +48,26 @@ prefix_regex2 = re.compile(r'''
 # print(mo_a1.group(3))
 
 
+# get the absolute file path of the current working directory of program
+abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be the current working directory or cwd
+
+# a list of all folders and subfolders to be analyzed
+folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
+
+# a list of all files to be analyzed
+file_path_list = [] # a list to hold all finalized folder paths (not folder names)
+
+
 #####################################
 # END REGEX
 #####################################
 
-def analyze_files(foldername):
-	print(fileTools.scanFolder(foldername)) # for testing
+def analyze_files(foldername,folder_path_list,file_path_list):
+	fileTools.scanFolder(foldername,folder_path_list)
+	fileTools.scanFile(foldername,file_path_list)
+
+	print(folder_path_list) # for testing
+	print(file_path_list) # for testing
 
 def gap_fill(foldername):
 	# figure out what the given prefix is using regex and the groups for substitution
@@ -65,7 +79,7 @@ def gap_fill(foldername):
 # EXECUTION
 #####################################
 
-analyze_files(user_input_folder)
+analyze_files(user_input_folder,folder_path_list,file_path_list)
 
 #####################################
 # END EXECUTION
