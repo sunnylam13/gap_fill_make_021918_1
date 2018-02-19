@@ -62,12 +62,17 @@ file_path_list = [] # a list to hold all finalized folder paths (not folder name
 # END REGEX
 #####################################
 
+def check_numbering(file_path_list):
+	pass
+
 def analyze_files(foldername,folder_path_list,file_path_list):
-	fileTools.scanFolder(foldername,folder_path_list)
+	# fileTools.scanFolder(foldername,folder_path_list) # don't need since we're analyzing only a single folder of files
 	fileTools.scanFile(foldername,file_path_list)
 
-	print(folder_path_list) # for testing
+	# print(folder_path_list) # for testing # don't need since we're analyzing only a single folder of files
 	print(file_path_list) # for testing
+
+
 
 def gap_fill(foldername):
 	# figure out what the given prefix is using regex and the groups for substitution
