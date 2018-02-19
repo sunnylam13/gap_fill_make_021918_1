@@ -9,3 +9,28 @@
 
 import os, re, shutil
 
+#####################################
+# USER INPUT
+#####################################
+
+user_input_folder = input("Please enter the path to the folder you want to fill the gaps in.  We suggest this be in the form of a string:  ")
+
+#####################################
+# END USER INPUT
+#####################################
+
+#####################################
+# REGEX
+#####################################
+
+
+
+#####################################
+# END REGEX
+#####################################
+
+def gap_fill(foldername):
+	# figure out what the given prefix is using regex and the groups for substitution
+	# analyze the number of said files and determine what the gap is
+	# fix the gap by renaming the later files so that the gap is closed
+

@@ -8,5 +8,34 @@ We could create a 3rd execution .py program, importing the other 2 in order to c
 
 For ease of import into the final combination function (`gap_fill_make_021918_1.py`) you'll want to wrap all of the code in the imported "fill" and "make" files in their own function.
 
+We should assume that the "prefix" always uses letters...  it would make writing the regex for it a lot easier.
+
+The prefix found using regex should be a group for later substitution.
+
+For...
+
+	spam001.txt
+
+one could use either...
+
+	(^[a-z]*) # matching 0 or more because some files have no prefix and are just 001.txt, https://regexr.com/3l1bg
+
+however since this program specifically works with prefixed files and assuming the prefix is always letters and not anything mixed...
+
+	(^[a-z]+) # matching 1 or more letters in the prefix, https://regexr.com/3l1bj
+
+If it's prefixes like... 
+
+	sp1em001.txt
+
+You'd probably have to do it character by character...
+
+	(^[a-z]{2}[0-9][a-z]+) # https://regexr.com/3l1bp
+
+The program would have to know the exact prefix or you'd have to write code to analyze the more annoying cases.
+
+### Tags
+
+gap, filenames, renaming
 
 
