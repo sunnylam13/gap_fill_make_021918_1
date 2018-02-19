@@ -45,6 +45,9 @@ prefix_regex2 = re.compile(r'''
 # END REGEX
 #####################################
 
+def analyze_files(foldername):
+	pass
+
 def gap_fill(foldername):
 	# figure out what the given prefix is using regex and the groups for substitution
 	# analyze the number of said files and determine what the gap is
