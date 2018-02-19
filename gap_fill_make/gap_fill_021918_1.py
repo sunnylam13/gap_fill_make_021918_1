@@ -25,6 +25,12 @@ user_input_folder = input("Please enter the path to the folder you want to fill 
 
 prefix_regex1 = re.compile(r'(^[a-z]+)')
 
+prefix_regex2 = re.compile(r'''
+		(^[a-z]+) # this is the gropu for the prefix, assumed to be a-z letters, one or more
+		(0*) # this is the the group for leading zeros, 0 or more i.e. 00 of 001
+		([1-9]*) # this is the group for the numbering
+	''', re.VERBOSE)
+
 #####################################
 # END REGEX
 #####################################
