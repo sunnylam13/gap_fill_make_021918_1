@@ -59,8 +59,8 @@ def scanFolder(foldername_path,folder_path_list):
 	# as we get deeper and deeper into subfolders it should add onto the folder's path string that we pass to it so accuracy should be maintained
 
 	dirs = os.listdir(foldername_path) # list all files of any kind (i.e. all file and folder names)
-	# absPath = dirPath
-	# absPath = os.path.dirname(foldername_path) # returns the directory path except basename to the foldername_path
+
+	foldername_list = [] # to be returned in case we want to work only with the name
 
 	# folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
@@ -70,13 +70,18 @@ def scanFolder(foldername_path,folder_path_list):
 
 		if os.path.isdir(new_path): #if the file is a folder
 			folder_path_list.append(new_path) # add it to the list of folders with its full path name
+			foldername_list.append(file)
 		else:
 			continue # otherwise skip and keep going
+
+	return foldername_list
 
 def scanFile(foldername_path, file_path_list):
 	# the file scanner that gets all of the files and pushes them into a list after we get the full string path to it
 	
 	dirs = os.listdir(foldername_path) # list all files of any kind (i.e. all file and folder names)
+
+	filename_list = [] # to be returned in case we want to work only with the name
 
 	for file in dirs:
 		# new_path = os.path.join(absPath,file) # creates a path to the file/folder
@@ -84,6 +89,9 @@ def scanFile(foldername_path, file_path_list):
 
 		if os.path.isfile(new_path): #if the file is a file AND has regex match
 			file_path_list.append(new_path) # add it to the list of folders with its full path name
+			filename_list.append(file)
 		else:
 			continue # otherwise skip and keep going
+
+	return filename_list
 

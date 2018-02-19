@@ -47,20 +47,24 @@ prefix_regex2 = re.compile(r'''
 # print(mo_a1.group(2))
 # print(mo_a1.group(3))
 
-prefix_regex3 = re.compile(r'''
-		(^.*) # this is the group for the beginning of the filename until the leading zeroes if any
-		(0*) # captures the leading zeroes if any
-		([1-9]*) # this is the numbering we want to analyze
-		(\.) # this is the dot before the extension
-		(.*$) # this is the extension after the dot
-	''', re.VERBOSE)
+# # this regex version handles file paths rather than file names
+# # https://regexr.com/3l1go
+# prefix_regex3 = re.compile(r'''
+# 		(^.*) # this is the group for the beginning of the filename until the leading zeroes if any
+# 		(0+) # captures the leading zeroes if any
+# 		([1-9]*) # this is the numbering we want to analyze
+# 		(\.) # this is the dot before the extension
+# 		(.*$) # this is the extension after the dot
+# 	''', re.VERBOSE)
 
-mo_a1 = prefix_regex2.search("spam001.txt")
-print(mo_a1)
-# test groupings
-print(mo_a1.group(1))
-print(mo_a1.group(2))
-print(mo_a1.group(3))
+# mo_a2 = prefix_regex2.search("../docs/testFolder1/spam003.txt")
+# print(mo_a2)
+# # test groupings
+# print(mo_a2.group(1))
+# print(mo_a2.group(2))
+# print(mo_a2.group(3))
+# print(mo_a2.group(4))
+# print(mo_a2.group(5))
 
 #####################################
 # END REGEX
@@ -73,11 +77,14 @@ print(mo_a1.group(3))
 # get the absolute file path of the current working directory of program
 abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be the current working directory or cwd
 
-# a list of all folders and subfolders to be analyzed
-folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
+# # a list of all folders and subfolders to be analyzed
+# folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
 # a list of all files to be analyzed
 file_path_list = [] # a list to hold all finalized folder paths (not folder names)
+
+# list of filenames that can be indexed to the correct file path list
+filename_list_f = []
 
 #####################################
 # END VARIABLES
@@ -88,9 +95,10 @@ def check_numbering(file_path_list,regex):
 	for file in file_path_list:
 		analyze_filename = regex.search(file)
 
-def analyze_files(foldername,folder_path_list,file_path_list):
-	fileTools.scanFile(foldername,file_path_list)
-	# print(file_path_list) # for testing
+def analyze_files(foldername,file_path_list):
+	filename_list_f = fileTools.scanFile(foldername,file_path_list)
+	print(file_path_list) # for testing
+	print(filename_list_f) # for testing
 
 def fix_numbering(file_path_list):
 	# rename all later files after a gap is discovered so numbering is in sync
@@ -100,7 +108,8 @@ def fix_numbering(file_path_list):
 # EXECUTION
 #####################################
 
-analyze_files(user_input_folder,folder_path_list,file_path_list)
+# analyze_files(user_input_folder,folder_path_list,file_path_list)
+analyze_files(user_input_folder,file_path_list)
 
 #####################################
 # END EXECUTION
