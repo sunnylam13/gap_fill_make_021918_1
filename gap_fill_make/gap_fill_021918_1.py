@@ -94,7 +94,8 @@ def check_numbering(filename_list,file_path_list,regex):
 	# check files and locate numbering gaps
 	for file in filename_list:
 		analyze_filename = regex.search(file)
-		if int(analyze_filename.group(3)) == (filename_list.index(file) + 1):
+		current_num = filename_list.index(file) + 1
+		if int(analyze_filename.group(3)) == (current_num):
 			# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
 			# if it matches, do nothing
 			continue
@@ -108,9 +109,14 @@ def analyze_files(foldername,filename_list,file_path_list):
 
 	# for testing
 	print("The file name list is:  ")
-	print(filename_list)
+	# print(filename_list)
+	for filename in filename_list:
+		print(filename)
 	print("The file name path list is:  ")
-	print(file_path_list)
+	# print(file_path_list)
+	for filename in file_path_list:
+		print(filename)
+	
 
 	check_numbering(filename_list,file_path_list,prefix_regex2)
 
