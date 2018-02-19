@@ -33,7 +33,7 @@ user_input_folder = "../docs/testFolder1" # assign the folder to the input varia
 # prefix_regex1 = re.compile(r'(^[a-z]+)')
 
 prefix_regex2 = re.compile(r'''
-		(^[a-z]+) # this is the gropu for the prefix, assumed to be a-z letters, one or more
+		(^[a-z]+) # this is the group for the prefix, assumed to be a-z letters, one or more
 		(0*) # this is the the group for leading zeros, 0 or more i.e. 00 of 001
 		([1-9]*) # this is the group for the numbering
 	''', re.VERBOSE)
@@ -47,6 +47,28 @@ prefix_regex2 = re.compile(r'''
 # print(mo_a1.group(2))
 # print(mo_a1.group(3))
 
+prefix_regex3 = re.compile(r'''
+		(^.*) # this is the group for the beginning of the filename until the leading zeroes if any
+		(0*) # captures the leading zeroes if any
+		([1-9]*) # this is the numbering we want to analyze
+		(\.) # this is the dot before the extension
+		(.*$) # this is the extension after the dot
+	''', re.VERBOSE)
+
+mo_a1 = prefix_regex2.search("spam001.txt")
+print(mo_a1)
+# test groupings
+print(mo_a1.group(1))
+print(mo_a1.group(2))
+print(mo_a1.group(3))
+
+#####################################
+# END REGEX
+#####################################
+
+#####################################
+# VARIABLES
+#####################################
 
 # get the absolute file path of the current working directory of program
 abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be the current working directory or cwd
@@ -57,32 +79,21 @@ folder_path_list = [] # a list to hold all finalized folder paths (not folder na
 # a list of all files to be analyzed
 file_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
-
 #####################################
-# END REGEX
+# END VARIABLES
 #####################################
 
-def check_numbering(file_path_list):
+def check_numbering(file_path_list,regex):
 	# check files and locate numbering gaps
-	pass
+	for file in file_path_list:
+		analyze_filename = regex.search(file)
+
+def analyze_files(foldername,folder_path_list,file_path_list):
+	fileTools.scanFile(foldername,file_path_list)
+	# print(file_path_list) # for testing
 
 def fix_numbering(file_path_list):
 	# rename all later files after a gap is discovered so numbering is in sync
-	pass
-
-def analyze_files(foldername,folder_path_list,file_path_list):
-	# fileTools.scanFolder(foldername,folder_path_list) # don't need since we're analyzing only a single folder of files
-	fileTools.scanFile(foldername,file_path_list)
-
-	# print(folder_path_list) # for testing # don't need since we're analyzing only a single folder of files
-	print(file_path_list) # for testing
-
-
-
-def gap_fill(foldername):
-	# figure out what the given prefix is using regex and the groups for substitution
-	# analyze the number of said files and determine what the gap is
-	# fix the gap by renaming the later files so that the gap is closed
 	pass
 
 #####################################

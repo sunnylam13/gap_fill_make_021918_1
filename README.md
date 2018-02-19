@@ -4,6 +4,14 @@ This program finds all files with a given prefix in a single folder and locates 
 
 Alternatively, this program inserts gaps into numbered files so that a new file can be added.
 
+## Actions
+
+* figure out what the given prefix is using regex and the groups for substitution
+
+* analyze the number of said files and determine what the gap is
+
+* fix the gap by renaming the later files so that the gap is closed
+
 ## Status
 
 incomplete
