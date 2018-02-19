@@ -19,6 +19,9 @@ import fileFunc021918v1 as fileTools
 
 # user_input_folder = input("Please enter the path to the folder you want to fill the gaps in.  We suggest this be in the form of a string:  ")
 
+# testing
+user_input_folder = "../docs/testFolder1" # assign the folder to the input variable so I don't have to run the code over and over
+
 #####################################
 # END USER INPUT
 #####################################

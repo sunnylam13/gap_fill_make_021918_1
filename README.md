@@ -10,7 +10,7 @@ incomplete
 
 ## Test Folder
 
-	docs/testFolder1
+	../docs/testFolder1
 
 ## Tags
 
