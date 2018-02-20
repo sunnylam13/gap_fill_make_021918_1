@@ -173,12 +173,12 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	analyze_filename = regex.search(filename)
 	current_filename_index = proc_file_list.index(filename)
 
-	try:
-	    b = a.index(7)
-	except ValueError:
-	    "Do nothing"
-	else:
-	    "Do something with variable b"
+	# try:
+	#     b = a.index(7)
+	# except ValueError:
+	#     "Do nothing"
+	# else:
+	#     "Do something with variable b"
 
 	# find the file with number 1
 	# if you can't find it then, cycle through proc_file_list until you do
@@ -186,6 +186,7 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
 	# rinse and repeat
 
+	
 
 	# if the filename's number matches (index + 1)
 	# just add the file name and file path to file_list_final, filePath_list_final
