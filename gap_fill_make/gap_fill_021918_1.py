@@ -156,11 +156,11 @@ def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 			if int(analyze_filename.group(3)) == num_pos:
 				# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
 				
-				print(int(analyze_filename.group(3)))
-				# print(current_num)
-				print(num_pos)
+				# print(int(analyze_filename.group(3)))
+				# print(num_pos)
 
 				# store the filename and its path in file_dict_master dictionary
+				
 				# store_file_dict(file,filename_list,file_dict_master)
 				
 				filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
@@ -168,8 +168,8 @@ def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 				
 				file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
 
-				print(file)
-				print(file_dict_master[file])
+				# print(file)
+				# print(file_dict_master[file])
 
 				# current_num += 1 # increment counter
 			else:
@@ -191,10 +191,16 @@ def analyze_files(foldername,filename_list,file_path_list,file_dict_master):
 	# for filename in file_path_list:
 	# 	print(filename)
 	
-	print(file_dict_master)
+	# print(file_dict_master)
 	# print("The file name and path dictionary:  ")
-	# for key,value in file_dict_master:
-	# 	print("The key is:  %s...  The value is:  %s" % (key,value))
+	# for key in file_dict_master:
+	# 	print("The key is:  %s...  The value is:  %s" % (key,file_dict_master[key]))
+
+	# for k, v in file_dict_master.items():
+ #    print(k, v)
+
+	# print(file_dict_master["spam001.txt"])
+	
 	
 
 	check_numbering(filename_list,file_path_list,prefix_regex2,file_dict_master)
@@ -205,8 +211,8 @@ def fix_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# then find its corresponding position on the file_path_list
 	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
 	
-	
-	
+
+
 	pass
 
 #####################################
@@ -215,6 +221,9 @@ def fix_numbering(filename_list,file_path_list,regex,file_dict_master):
 
 # analyze_files(user_input_folder,folder_path_list,file_path_list)
 analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
+
+# for k, v in file_dict_master.items():
+# 	print(k, v)
 
 #####################################
 # END EXECUTION
