@@ -234,27 +234,25 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 			pass
 		# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
 		else:
-			next_filename = proc_file_list[current_filename_index + 2] # add + 2 so that we get the index position of the next file
-			sub_in_change = "\1\2" + (current_filename_index + 1) # this is the current number we want to fill in
-			new_filename = regex.sub(sub_in_change,next_filename)
+			if (current_filename_index + 2):
+				next_filename = proc_file_list[current_filename_index + 2] # add + 2 so that we get the index position of the next file
+				sub_in_change = "\1\2" + (current_filename_index + 1) # this is the current number we want to fill in
+				new_filename = regex.sub(sub_in_change,next_filename)
 
-			print("The new file name is:  %s" % (new_filename))
+				print("The new file name is:  %s" % (new_filename))
 
-			# proc_file_list[(current_filename_index + 1)] = new_filename # set the new file name at this position to the new_filename
+				# proc_file_list[(current_filename_index + 1)] = new_filename # set the new file name at this position to the new_filename
 
-			# old_path = proc_file_list[current_filename_index + 1]
+				# old_path = proc_file_list[current_filename_index + 1]
 
-			# # get the dir path to the file from proc_filePath_list
-			# dirPath = os.path.dirname(oldPath)
+				# # get the dir path to the file from proc_filePath_list
+				# dirPath = os.path.dirname(oldPath)
 
-			# # using the new_filename and dirPath, create a new path target for re-naming
-			# new_path = os.path.join(dirPath,new_filename)
+				# # using the new_filename and dirPath, create a new path target for re-naming
+				# new_path = os.path.join(dirPath,new_filename)
 
-			# # use shutil.move to rename the file
-			# shutil.move(old_path,new_path)
-		pass
-
-	pass # keep enabled until ready to test
+				# # use shutil.move to rename the file
+				# shutil.move(old_path,new_path)
 
 #####################################
 # EXECUTION
