@@ -86,24 +86,35 @@ filename_list_f = []
 # a list of all files to be analyzed
 file_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
+# a dict to store filenames and their corresponding file path
+file_dict_master = {}
+
 #####################################
 # END VARIABLES
 #####################################
 
-def check_numbering(filename_list,file_path_list,regex):
+def store_file_dict(filename,):
+	pass
+
+def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# check files and locate numbering gaps
+	current_num = 1
 	for file in filename_list:
 		analyze_filename = regex.search(file)
-		current_num = filename_list.index(file) + 1
+		# current_num = filename_list.index(file) + 1 # can't tie it to current index of file, it could be wrong, tie it to a separate counter
 		if int(analyze_filename.group(3)) == (current_num):
 			# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
-			# if it matches, do nothing
-			continue
+			
+			filename_index = filename_list.index(file) # get the index number of file in filename_list
+			filename_path_value = file_path_list[filename_index] # get the value or filename path at the same index position as filename_index
+			file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+			current_num += 1 # increment counter
 		else:
+			# otherwise if it doesn't match at all
 			# set the number to match the current index number
-			fix_numbering(filename_list,file_path_list,regex)
+			fix_numbering(filename_list,file_path_list,regex,file_dict_master)
 
-def analyze_files(foldername,filename_list,file_path_list):
+def analyze_files(foldername,filename_list,file_path_list,file_dict_master):
 	# generate list of file names and corresponding list of paths to each of those file names that will be altered
 	filename_list = fileTools.scanFile(foldername,file_path_list)
 
@@ -118,9 +129,9 @@ def analyze_files(foldername,filename_list,file_path_list):
 		print(filename)
 	
 
-	check_numbering(filename_list,file_path_list,prefix_regex2)
+	check_numbering(filename_list,file_path_list,prefix_regex2,file_dict_master)
 
-def fix_numbering(filename_list,file_path_list,regex):
+def fix_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# rename all later files after a gap is discovered so numbering is in sync
 	# change the filename using regex substitution
 	# then find its corresponding position on the file_path_list
@@ -132,7 +143,7 @@ def fix_numbering(filename_list,file_path_list,regex):
 #####################################
 
 # analyze_files(user_input_folder,folder_path_list,file_path_list)
-analyze_files(user_input_folder,filename_list_f,file_path_list)
+analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
 
 #####################################
 # END EXECUTION
