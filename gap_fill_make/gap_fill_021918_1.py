@@ -227,12 +227,23 @@ def analyze_files(foldername,filename_list,file_path_list,file_dict_master):
 def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 	analyze_filename = regex.search(filename)
 	current_filename_index = proc_file_list.index(filename)
+	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
 
 	file_list_final = []
 	filePath_list_final = []
 
-	# if the filename's number matches (index + 1) do nothing
+	number_of_gaps = 0
+
+	# if the filename's number matches (index + 1)
+	# just add the file name and file path to file_list_final, filePath_list_final
 	if int(analyze_filename.group('numbering')) == (current_filename_index + 1): # we add + 1 because indexes start at 0
+		file_list_final.append(filename)
+		filePath_list_final.append(proc_filePath_list[current_filename_index])
+	# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
+	elif int(analyze_filename.group('numbering')) == (max_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
+		# we need to account for the number of gap files as well to subtract with
+		# file_list_final.append(filename)
+		# filePath_list_final.append(proc_filePath_list[current_filename_index])
 		pass
 	# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
 	else:		
@@ -241,8 +252,9 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 
 		# print("The new file name is:  %s" % (new_filename)) # testing
 
-		# push the new filename into the proc_file_list
-		proc_file_list[current_filename_index] = new_filename
+		# push the new filename into the file_list_final
+		file_list_final.append(new_filename)
+		print(file_list_final)
 
 		old_path = proc_filePath_list[current_filename_index]
 
@@ -259,11 +271,16 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 
 		# print("The new path is:  %s" % (new_path)) # testing
 
-		# push the new file path into the proc_filePath_list
-		proc_filePath_list[current_filename_index] = new_path
+		# push the new file path into the filePath_list_final
+		filePath_list_final.append(new_path)
+		print(filePath_list_final)
 
 		# # use shutil.move to rename the file
 		# shutil.move(old_path,new_path)
+
+		# for item in proc_filePath_list:
+		# 	get_item_index = proc_filePath_list.index(item)
+		# 	shutil.move(proc_filePath_list[get_item_index],filePath_list_final[get_item_index])
 
 def fix_numbering(proc_file_list,proc_filePath_list,regex):
 	# rename all later files after a gap is discovered so numbering is in sync
@@ -295,8 +312,8 @@ analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
 # for filename in proc_file_list:
 # 	print(filename)
 
-for filepath in proc_filePath_list:
-	print(filepath)
+# for filepath in proc_filePath_list:
+# 	print(filepath)
 
 #####################################
 # END EXECUTION

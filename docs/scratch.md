@@ -157,4 +157,11 @@ So that means we need to use regex to find the number of the very last and/or hi
 
 It seems we need to find and replace elements on the existing list before we do the moving.  Otherwise we throw an error.
 
+## Tuesday, February 20, 2018 5:42 PM
 
+	# if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
+	# we need to account for the number of gap files as well to subtract with
+
+The real issue here is that you might have a gap between 001 and 0062 and your final number is 0070 and there are only five files.  That means 70 has to change from 70 to file 005.
+
+You need to figure out how to handle that situation.
