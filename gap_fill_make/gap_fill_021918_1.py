@@ -89,6 +89,12 @@ file_path_list = [] # a list to hold all finalized folder paths (not folder name
 # a dict to store filenames and their corresponding file path
 file_dict_master = {}
 
+# processing file name list
+proc_file_list = []
+
+# processing file name path list
+proc_filePath_list = []
+
 # we need the number of files in the use input directory so we know what the final number to use is
 
 max_num = len(os.listdir(user_input_folder))
@@ -114,12 +120,17 @@ def highest_labelled_number (user_input_folder,regex):
 
 	return highest_num # return the highest number value
 
-def store_file_dict(filename,filename_list,file_dict_master):
+def store_file_dict(filename,filename_list,file_path_list,file_dict_master,file_current_index):
 	# store the filename and its path in file_dict_master dictionary
 	
-	filename_index = filename_list.index(filename) # get the index number of file in filename_list
-	filename_path_value = file_path_list[filename_index] # get the value or filename path at the same index position as filename_index
+	filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
+	# print(filename_path_value)
+	
 	file_dict_master[filename] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+
+def process_file_lists(filename,filename_list,file_path_list,file_dict_master,file_current_index):
+	proc_file_list.append(filename) # append the file name into the proc_file_list
+	proc_filePath_list.append(file_path_list[file_current_index]) # append the file path corresponding to the same index position as filename in filename_list
 
 def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# check files and locate numbering gaps
@@ -161,17 +172,20 @@ def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 
 				# store the filename and its path in file_dict_master dictionary
 				
-				# store_file_dict(file,filename_list,file_dict_master)
+				# store_file_dict(file,filename_list,file_path_list,file_dict_master,file_current_index)
 				
-				filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
-				# print(filename_path_value)
+				# filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
+				# # print(filename_path_value)
 				
-				file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+				# file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
 
 				# print(file)
 				# print(file_dict_master[file])
 
 				# current_num += 1 # increment counter
+				
+				process_file_lists(file,filename_list,file_path_list,file_dict_master,file_current_index)
+
 			else:
 				# otherwise if it doesn't match at all
 				# set the number to match the current index number
@@ -222,8 +236,16 @@ def fix_numbering(filename_list,file_path_list,regex,file_dict_master):
 # analyze_files(user_input_folder,folder_path_list,file_path_list)
 analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
 
+# for testing
 # for k, v in file_dict_master.items():
 # 	print(k, v)
+
+# for testing
+for filename in proc_file_list:
+	print(filename)
+
+for filepath in proc_filePath_list:
+	print(filepath)
 
 #####################################
 # END EXECUTION
