@@ -158,31 +158,44 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
 	
 	for filename in proc_file_list:
-		print("Filename to be analyzed is:  %s" % (filename))
+		# print("Filename to be analyzed is:  %s" % (filename))
 		# analyze_filename = regex.search(filename)
 		# current_filename_index = proc_file_list.index(filename)
 		
-		rename_files(filename,proc_file_list,proc_filePath_list,regex) # should assign it in the order of the returned values from the function
+		setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex) # should assign it in the order of the returned values from the function
 
-	# needs to be moved out of the loop or it repeats endlessly
-	# # use shutil.move to rename the file
-	# shutil.move(old_path,new_path)
+	# print(file_list_final) # testing
+	# print(filePath_list_final) # testing
 
-	# for item in proc_filePath_list:
-	# 	get_item_index = proc_filePath_list.index(item)
-	# 	shutil.move(proc_filePath_list[current_filename_index],filePath_list_f2[current_filename_index])
+	rename_files(proc_filePath_list,filePath_list_final)
 
-def rename_files(filename,proc_file_list,proc_filePath_list,regex):
+def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	analyze_filename = regex.search(filename)
 	current_filename_index = proc_file_list.index(filename)
-	
+
+	try:
+	    b = a.index(7)
+	except ValueError:
+	    "Do nothing"
+	else:
+	    "Do something with variable b"
+
+	# find the file with number 1
+	# if you can't find it then, cycle through proc_file_list until you do
+	# if you find it add it to the file_list_final,filePath_list_final
+	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
+	# rinse and repeat
+
+
 	# if the filename's number matches (index + 1)
 	# just add the file name and file path to file_list_final, filePath_list_final
 	if int(analyze_filename.group('numbering')) == (current_filename_index + 1): # we add + 1 because indexes start at 0
 		file_list_final.append(filename)
 		filePath_list_final.append(proc_filePath_list[current_filename_index])
-	# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
-	elif int(analyze_filename.group('numbering')) is not (current_filename_index + 1) and not (int(analyze_filename.group('numbering')) == (true_max_num)):		
+	# if the filename's number does not match (index + 1), grab the next file and rename it so that it does match (index + 1)
+	# then store it in another list rather than changing the current one in case we need the old list
+	# we do the same with the file path
+	elif int(analyze_filename.group('numbering')) is not (current_filename_index + 1) and not (int(analyze_filename.group('numbering')) == (highest_label_num)):		
 		sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
 		new_filename = regex.sub(sub_in_change,filename)
 
@@ -209,9 +222,9 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex):
 		# push the new file path into the filePath_list_final
 		filePath_list_final.append(new_path)
 		
-	elif int(analyze_filename.group('numbering')) == (true_max_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
-			# we need to account for the number of gap files as well to subtract with
-			
+	elif int(analyze_filename.group('numbering')) == (highest_label_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
+		# we should set this file's number to the last index number of the proc_filePath_list (no matter what it is)
+					
 		# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
 
 		sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(true_max_num) # this is the current number we want to fill in, don't forget to convert number into a string
@@ -242,8 +255,18 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex):
 	else:
 		pass
 
-	# return file_list_final, filePath_list_final
+def rename_files(old_file_path,new_file_path):
+	# use shutil.move to rename the file
+	# shutil.move(old_path,new_path)
 
+	for item in old_file_path:
+		# item is the old file path
+		get_item_index = old_file_path.index(item)
+
+		print("The old file path replaced:  %s" % (item))
+		print("The new file path is:  %s" % (new_file_path[get_item_index]))
+
+		# shutil.move(item,new_file_path[get_item_index])
 
 #####################################
 # EXECUTION

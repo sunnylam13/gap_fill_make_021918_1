@@ -35,3 +35,5 @@ gap, filenames, renaming
 [Add Key Value Pair to Dict](https://stackoverflow.com/questions/3776275/how-to-add-key-value-pair-to-dictionary/28380174)
 
 [Good Reference on Using Groups for Regex and String Substitution](https://docs.python.org/3/howto/regex.html)
+
+[check if a value exists in a list](https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exist-in-a-list)
