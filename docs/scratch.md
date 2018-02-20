@@ -165,3 +165,7 @@ It seems we need to find and replace elements on the existing list before we do 
 The real issue here is that you might have a gap between 001 and 0062 and your final number is 0070 and there are only five files.  That means 70 has to change from 70 to file 005.
 
 You need to figure out how to handle that situation.
+
+Simple change it to the last number of the index of the filename path list as it has to be the last one anyone no matter what.
+
+
