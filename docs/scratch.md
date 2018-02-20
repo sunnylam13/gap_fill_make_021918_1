@@ -119,5 +119,16 @@ would result in the chapter order possibly being screwed up
 
 for other situations where you don't care this would be fine
 
+## Monday, February 19, 2018 7:06 PM
+
+From what I can tell maybe using a dict isn't good...
+
+What we need is to create an empty list with empty string values up to the length of the number of files in the analyzed directory.
+
+As we analyze the files, we search for files with 1, if we find it we store it at the list[0] position of the list...  
+
+We cycle through all possible numbers... 
+
+And then we find out the problem is that also doesn't work too well because your list now has gaps however you need to rename the file in the next position.
 
 
