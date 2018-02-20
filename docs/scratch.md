@@ -136,3 +136,18 @@ And then we find out the problem is that also doesn't work too well because your
 
 Weirdly it seems every other file except 1 and 3 in the number order is in the right order...
 
+## Monday, February 19, 2018 9:15 PM
+
+	for num_pos in range(1,(max_num + 2)): # we start at 1 not 0 and thus must use max_num + 1 as the upper limit
+	# what happens if we have a lot of gaps and the max number range is really too high?  we would need to find the current numbering of the last file to get an accurate upper limit
+
+The issue is that the file numbering may actually be higher than the actual number of files which would screw up the loop...
+
+Say you have 5 files from 001 to 006...  However your loop only goes to the max number of files which is 5...
+
+However your loop needs to analyze the filename of ALL the files, which means that 006 is now outside of the loop with range of 1 to 5...  So now you've missed assessing a file.
+
+So that means we need to use regex to find the number of the very last and/or highest numbered file.
+
+
+

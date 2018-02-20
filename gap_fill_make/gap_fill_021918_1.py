@@ -89,9 +89,30 @@ file_path_list = [] # a list to hold all finalized folder paths (not folder name
 # a dict to store filenames and their corresponding file path
 file_dict_master = {}
 
+# we need the number of files in the use input directory so we know what the final number to use is
+
+max_num = len(os.listdir(user_input_folder))
+# print(max_num)
+
 #####################################
 # END VARIABLES
 #####################################
+
+def highest_labelled_number (user_input_folder,regex):
+	dirs = os.listdir(user_input_folder) # assumes all files are numbered files with no folders
+	highest_num = 0
+	for filename in dirs:
+		analyze_filename = regex.search(filename)
+
+		if int(analyze_filename.group(3)) > highest_num:  # if the label number is higher than highest_num, set highest_num to label number
+			highest_num = int(analyze_filename.group(3))
+		else:
+			# otherwise skip on to analyze the next filename
+			pass
+
+	# print(highest_num)
+
+	return highest_num # return the highest number value
 
 def store_file_dict(filename,filename_list,file_dict_master):
 	# store the filename and its path in file_dict_master dictionary
@@ -102,47 +123,78 @@ def store_file_dict(filename,filename_list,file_dict_master):
 
 def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# check files and locate numbering gaps
-	current_num = 1
+	# current_num = 1
 
 	# for file in filename_list:
 	# 	print(file)
 
-	for file in filename_list:
-		analyze_filename = regex.search(file)
-		print(analyze_filename)
-		# current_num = filename_list.index(file) + 1 # can't tie it to current index of file, it could be wrong, tie it to a separate counter
-		if int(analyze_filename.group(3)) == (current_num):
-			# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
+	# need a loop within a loop
+	# first we start at number 1 and cycle through all the files until we find 1
+	# then we do it for 2
+	# if we don't find 2 (or "n"), then we check if 3 exists ("n + 1")
+	# if it does we re-name it to 2
+	# then we continue
+	
+	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
+	print("Highest label number is: %s" % (max_num))
+	# print(max_num + 1)
+
+	for num_pos in range(1,max_num+1): # we start at 1 not 0 and thus must use max_num + 1 as the upper limit
+	# what happens if we have a lot of gaps and the max number range is really too high?  we would need to find the current numbering of the last file to get an accurate upper limit
+
+		for file in filename_list:
+			analyze_filename = regex.search(file)
+			# print(analyze_filename)
+			file_current_index = filename_list.index(file)
+			# print("The current index of filename is %s" % (file_current_index))
+			# file_plus_one_pos = file_current_index + 1
+			# current_num = filename_list.index(file) + 1 # can't tie it to current index of file, it could be wrong, tie it to a separate counter
 			
-			print(int(analyze_filename.group(3)))
-			print(current_num)
+			# print(int(analyze_filename.group(3)))
 
-			# store the filename and its path in file_dict_master dictionary
-			store_file_dict(file,filename_list,file_dict_master)
+			# if int(analyze_filename.group(3)) == (current_num):
+			if int(analyze_filename.group(3)) == num_pos:
+				# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
+				
+				print(int(analyze_filename.group(3)))
+				# print(current_num)
+				print(num_pos)
 
-			current_num += 1 # increment counter
-		else:
-			# otherwise if it doesn't match at all
-			# set the number to match the current index number
-			fix_numbering(filename_list,file_path_list,regex,file_dict_master)
+				# store the filename and its path in file_dict_master dictionary
+				# store_file_dict(file,filename_list,file_dict_master)
+				
+				filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
+				# print(filename_path_value)
+				
+				file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+
+				print(file)
+				print(file_dict_master[file])
+
+				# current_num += 1 # increment counter
+			else:
+				# otherwise if it doesn't match at all
+				# set the number to match the current index number
+				fix_numbering(filename_list,file_path_list,regex,file_dict_master)
 
 def analyze_files(foldername,filename_list,file_path_list,file_dict_master):
 	# generate list of file names and corresponding list of paths to each of those file names that will be altered
 	filename_list = fileTools.scanFile(foldername,file_path_list)
 
 	# for testing
-	print("The file name list is:  ")
-	# print(filename_list)
-	for filename in filename_list:
-		print(filename)
-	print("The file name path list is:  ")
-	# print(file_path_list)
-	for filename in file_path_list:
-		print(filename)
-	# print(file_dict_master)
-	print("The file name and path dictionary:  ")
-	for key,value in file_dict_master:
-		print("The key is:  %s...  The value is:  %s" % (key,value))
+	# print("The file name list is:  ")
+
+	# for filename in filename_list:
+	# 	print(filename)
+	
+	# print("The file name path list is:  ")
+	# for filename in file_path_list:
+	# 	print(filename)
+	
+	print(file_dict_master)
+	# print("The file name and path dictionary:  ")
+	# for key,value in file_dict_master:
+	# 	print("The key is:  %s...  The value is:  %s" % (key,value))
 	
 
 	check_numbering(filename_list,file_path_list,prefix_regex2,file_dict_master)
@@ -152,6 +204,9 @@ def fix_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# change the filename using regex substitution
 	# then find its corresponding position on the file_path_list
 	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
+	
+	
+	
 	pass
 
 #####################################
