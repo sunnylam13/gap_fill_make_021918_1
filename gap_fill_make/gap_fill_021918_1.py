@@ -86,14 +86,16 @@ abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be
 # # a list of all folders and subfolders to be analyzed
 # folder_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
-# list of filenames that can be indexed to the correct file path list
-filename_list_f = []
+# # list of filenames that can be indexed to the correct file path list
+# filename_list_f = []
+
+filename_list = []
 
 # a list of all files to be analyzed
 file_path_list = [] # a list to hold all finalized folder paths (not folder names)
 
-# a dict to store filenames and their corresponding file path
-file_dict_master = {}
+# # a dict to store filenames and their corresponding file path
+# file_dict_master = {}
 
 # processing file name list
 proc_file_list = []
@@ -104,7 +106,8 @@ proc_filePath_list = []
 # we need the number of files in the use input directory so we know what the final number to use is
 
 true_max_num = len(os.listdir(user_input_folder)) # actual upper limit of numbering unlike highest_labelled_number()
-# print(max_num)
+
+
 
 file_list_final = []
 
@@ -130,108 +133,119 @@ def highest_labelled_number (user_input_folder,regex):
 
 	return highest_num # return the highest number value
 
-def store_file_dict(filename,filename_list,file_path_list,file_dict_master,file_current_index):
-	# store the filename and its path in file_dict_master dictionary
-	
-	filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
-	# print(filename_path_value)
-	
-	file_dict_master[filename] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+highest_label_num = highest_labelled_number(user_input_folder,prefix_regex2)
 
-def process_file_lists(filename,filename_list,file_path_list,file_dict_master,file_current_index):
+# def store_file_dict(filename,filename_list,file_path_list,file_dict_master,file_current_index):
+# 	# store the filename and its path in file_dict_master dictionary
+	
+# 	filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
+# 	# print(filename_path_value)
+	
+# 	file_dict_master[filename] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+
+def analyze_files(user_input_folder,filename_list,file_path_list,regex):
+	# generate list of file names and corresponding list of paths to each of those file names that will be altered
+	filename_list = fileTools.scanFile(user_input_folder,file_path_list)
+
+	# create the processing files
+	# proc_file_list
+	# proc_filePath_list
+	for filename in filename_list:
+		file_current_index = filename_list.index(filename)
+		process_file_lists(filename,filename_list,file_path_list,file_current_index)
+
+	# start fixing the numbering
+	fix_numbering(proc_file_list,proc_filePath_list,regex)
+
+def process_file_lists(filename,filename_list,file_path_list,file_current_index):
 	proc_file_list.append(filename) # append the file name into the proc_file_list
 	proc_filePath_list.append(file_path_list[file_current_index]) # append the file path corresponding to the same index position as filename in filename_list
 
-def check_numbering(filename_list,file_path_list,regex,file_dict_master):
-	# check files and locate numbering gaps
-	# current_num = 1
+# def check_numbering(filename_list,file_path_list,regex,file_dict_master):
+# 	# check files and locate numbering gaps
+# 	# current_num = 1
 
-	# for file in filename_list:
-	# 	print(file)
+# 	# for file in filename_list:
+# 	# 	print(file)
 
-	# need a loop within a loop
-	# first we start at number 1 and cycle through all the files until we find 1
-	# then we do it for 2
-	# if we don't find 2 (or "n"), then we check if 3 exists ("n + 1")
-	# if it does we re-name it to 2
-	# then we continue
+# 	# need a loop within a loop
+# 	# first we start at number 1 and cycle through all the files until we find 1
+# 	# then we do it for 2
+# 	# if we don't find 2 (or "n"), then we check if 3 exists ("n + 1")
+# 	# if it does we re-name it to 2
+# 	# then we continue
 	
-	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
-	# print("Highest label number is: %s" % (max_num))
+# 	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
+# 	# print("Highest label number is: %s" % (max_num))
 
-	for num_pos in range(1,max_num+1): # we start at 1 not 0 and thus must use max_num + 1 as the upper limit
-	# what happens if we have a lot of gaps and the max number range is really too high?  we would need to find the current numbering of the last file to get an accurate upper limit
+# 	for num_pos in range(1,max_num+1): # we start at 1 not 0 and thus must use max_num + 1 as the upper limit
+# 	# what happens if we have a lot of gaps and the max number range is really too high?  we would need to find the current numbering of the last file to get an accurate upper limit
 
-		for file in filename_list:
-			analyze_filename = regex.search(file)
-			# print(analyze_filename)
-			file_current_index = filename_list.index(file)
-			# print("The current index of filename is %s" % (file_current_index))
-			# file_plus_one_pos = file_current_index + 1
-			# current_num = filename_list.index(file) + 1 # can't tie it to current index of file, it could be wrong, tie it to a separate counter
+# 		for file in filename_list:
+# 			analyze_filename = regex.search(file)
+# 			# print(analyze_filename)
+# 			file_current_index = filename_list.index(file)
+# 			# print("The current index of filename is %s" % (file_current_index))
+# 			# file_plus_one_pos = file_current_index + 1
+# 			# current_num = filename_list.index(file) + 1 # can't tie it to current index of file, it could be wrong, tie it to a separate counter
 			
-			# print(int(analyze_filename.group(3)))
+# 			# print(int(analyze_filename.group(3)))
 
-			# if int(analyze_filename.group(3)) == (current_num):
-			if int(analyze_filename.group('numbering')) == num_pos:
-				# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
+# 			# if int(analyze_filename.group(3)) == (current_num):
+# 			if int(analyze_filename.group('numbering')) == num_pos:
+# 				# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
 				
-				# print(int(analyze_filename.group(3)))
-				# print(num_pos)
+# 				# print(int(analyze_filename.group(3)))
+# 				# print(num_pos)
 
-				# store the filename and its path in file_dict_master dictionary
+# 				# store the filename and its path in file_dict_master dictionary
 				
-				# store_file_dict(file,filename_list,file_path_list,file_dict_master,file_current_index)
+# 				# store_file_dict(file,filename_list,file_path_list,file_dict_master,file_current_index)
 				
-				# filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
-				# # print(filename_path_value)
+# 				# filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
+# 				# # print(filename_path_value)
 				
-				# file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+# 				# file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
 
-				# print(file)
-				# print(file_dict_master[file])
+# 				# print(file)
+# 				# print(file_dict_master[file])
 
-				# current_num += 1 # increment counter
+# 				# current_num += 1 # increment counter
 				
-				process_file_lists(file,filename_list,file_path_list,file_dict_master,file_current_index)
+# 				process_file_lists(file,filename_list,file_path_list,file_dict_master,file_current_index)
 
-			else:
-				# otherwise if it doesn't match at all
-				# set the number to match the current index number
-				fix_numbering(proc_file_list,proc_filePath_list,regex)
+# 			else:
+# 				# otherwise if it doesn't match at all
+# 				# set the number to match the current index number
+# 				fix_numbering(proc_file_list,proc_filePath_list,regex)
 
-def analyze_files(foldername,filename_list,file_path_list,file_dict_master):
-	# generate list of file names and corresponding list of paths to each of those file names that will be altered
-	filename_list = fileTools.scanFile(foldername,file_path_list)
-
-	# for testing
-	# print("The file name list is:  ")
-
-	# for filename in filename_list:
-	# 	print(filename)
+def fix_numbering(proc_file_list,proc_filePath_list,regex):
+	# rename all later files after a gap is discovered so numbering is in sync
+	# change the filename using regex substitution
+	# then find its corresponding position on the file_path_list
+	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
 	
-	# print("The file name path list is:  ")
-	# for filename in file_path_list:
-	# 	print(filename)
-	
-	# print(file_dict_master)
-	# print("The file name and path dictionary:  ")
-	# for key in file_dict_master:
-	# 	print("The key is:  %s...  The value is:  %s" % (key,file_dict_master[key]))
+	# max_num = highest_labelled_number(user_input_folder,prefix_regex2)
 
-	# for k, v in file_dict_master.items():
- #    print(k, v)
+	for filename in proc_file_list:
+		print("Filename to be analyzed is:  %s" % (filename))
+		# analyze_filename = regex.search(filename)
+		# current_filename_index = proc_file_list.index(filename)
+		
+		rename_files(filename,proc_file_list,proc_filePath_list,regex) # should assign it in the order of the returned values from the function
 
-	# print(file_dict_master["spam001.txt"])
-	
-	
+	# needs to be moved out of the loop or it repeats endlessly
+	# # use shutil.move to rename the file
+	# shutil.move(old_path,new_path)
 
-	check_numbering(filename_list,file_path_list,prefix_regex2,file_dict_master)
+	# for item in proc_filePath_list:
+	# 	get_item_index = proc_filePath_list.index(item)
+	# 	shutil.move(proc_filePath_list[current_filename_index],filePath_list_f2[current_filename_index])
 
-def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
+def rename_files(filename,proc_file_list,proc_filePath_list,regex):
 	analyze_filename = regex.search(filename)
 	current_filename_index = proc_file_list.index(filename)
-	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
+	# max_num = highest_labelled_number(user_input_folder,prefix_regex2)
 
 	# file_list_final = []
 	# filePath_list_final = []
@@ -244,7 +258,7 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 		file_list_final.append(filename)
 		filePath_list_final.append(proc_filePath_list[current_filename_index])
 	# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
-	elif int(analyze_filename.group('numbering')) is not (current_filename_index + 1) and not (int(analyze_filename.group('numbering')) == (max_num)):		
+	elif int(analyze_filename.group('numbering')) is not (current_filename_index + 1) and not (int(analyze_filename.group('numbering')) == (true_max_num)):		
 		sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
 		new_filename = regex.sub(sub_in_change,filename)
 
@@ -271,7 +285,7 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 		# push the new file path into the filePath_list_final
 		filePath_list_final.append(new_path)
 		
-	elif int(analyze_filename.group('numbering')) == (max_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
+	elif int(analyze_filename.group('numbering')) == (true_max_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
 			# we need to account for the number of gap files as well to subtract with
 			
 		# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
@@ -307,35 +321,14 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 	# return file_list_final, filePath_list_final
 
 
-def fix_numbering(proc_file_list,proc_filePath_list,regex):
-	# rename all later files after a gap is discovered so numbering is in sync
-	# change the filename using regex substitution
-	# then find its corresponding position on the file_path_list
-	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
-	
-	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
-
-	for filename in proc_file_list:
-		print("Filename to be analyzed is:  %s" % (filename))
-		# analyze_filename = regex.search(filename)
-		# current_filename_index = proc_file_list.index(filename)
-		
-		rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num) # should assign it in the order of the returned values from the function
-
-	# needs to be moved out of the loop or it repeats endlessly
-	# # use shutil.move to rename the file
-	# shutil.move(old_path,new_path)
-
-	# for item in proc_filePath_list:
-	# 	get_item_index = proc_filePath_list.index(item)
-	# 	shutil.move(proc_filePath_list[current_filename_index],filePath_list_f2[current_filename_index])
-
 #####################################
 # EXECUTION
 #####################################
 
 # analyze_files(user_input_folder,folder_path_list,file_path_list)
-analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
+# analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
+
+analyze_files(user_input_folder,filename_list,file_path_list,prefix_regex2)
 
 # for testing
 # for k, v in file_dict_master.items():
@@ -348,8 +341,8 @@ analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
 # for filepath in proc_filePath_list:
 # 	print(filepath)
 
-print(file_list_final)
-print(filePath_list_final)
+# print(file_list_final)
+# print(filePath_list_final)
 
 #####################################
 # END EXECUTION
