@@ -153,4 +153,8 @@ So that means we need to use regex to find the number of the very last and/or hi
 
 > Remember that Python’s string literals also use a backslash followed by numbers to allow including arbitrary characters in a string, so be sure to use a raw string when incorporating backreferences in a RE. [Source](https://docs.python.org/3/howto/regex.html)
 
+## Tuesday, February 20, 2018 5:27 PM
+
+It seems we need to find and replace elements on the existing list before we do the moving.  Otherwise we throw an error.
+
 

@@ -228,6 +228,9 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 	analyze_filename = regex.search(filename)
 	current_filename_index = proc_file_list.index(filename)
 
+	file_list_final = []
+	filePath_list_final = []
+
 	# if the filename's number matches (index + 1) do nothing
 	if int(analyze_filename.group('numbering')) == (current_filename_index + 1): # we add + 1 because indexes start at 0
 		pass
@@ -236,11 +239,14 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 		sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
 		new_filename = regex.sub(sub_in_change,filename)
 
-		print("The new file name is:  %s" % (new_filename)) # testing
+		# print("The new file name is:  %s" % (new_filename)) # testing
+
+		# push the new filename into the proc_file_list
+		proc_file_list[current_filename_index] = new_filename
 
 		old_path = proc_filePath_list[current_filename_index]
 
-		print("The old path is:  %s" % (old_path)) # testing
+		# print("The old path is:  %s" % (old_path)) # testing
 
 		# get the dir path to the file from proc_filePath_list
 		dirPath = os.path.dirname(old_path)
@@ -251,7 +257,10 @@ def rename_files(filename,proc_file_list,proc_filePath_list,regex,true_max_num):
 		# new_path = os.path.join(dirPath,new_filename)
 		new_path = os.path.join(dirPath,new_filename)
 
-		print("The new path is:  %s" % (new_path)) # testing
+		# print("The new path is:  %s" % (new_path)) # testing
+
+		# push the new file path into the proc_filePath_list
+		proc_filePath_list[current_filename_index] = new_path
 
 		# # use shutil.move to rename the file
 		# shutil.move(old_path,new_path)
@@ -286,8 +295,8 @@ analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
 # for filename in proc_file_list:
 # 	print(filename)
 
-# for filepath in proc_filePath_list:
-# 	print(filepath)
+for filepath in proc_filePath_list:
+	print(filepath)
 
 #####################################
 # END EXECUTION
