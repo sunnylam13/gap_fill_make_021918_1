@@ -97,7 +97,7 @@ proc_filePath_list = []
 
 # we need the number of files in the use input directory so we know what the final number to use is
 
-max_num = len(os.listdir(user_input_folder))
+true_max_num = len(os.listdir(user_input_folder)) # actual upper limit of numbering unlike highest_labelled_number()
 # print(max_num)
 
 #####################################
@@ -147,8 +147,7 @@ def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# then we continue
 	
 	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
-	print("Highest label number is: %s" % (max_num))
-	# print(max_num + 1)
+	# print("Highest label number is: %s" % (max_num))
 
 	for num_pos in range(1,max_num+1): # we start at 1 not 0 and thus must use max_num + 1 as the upper limit
 	# what happens if we have a lot of gaps and the max number range is really too high?  we would need to find the current numbering of the last file to get an accurate upper limit
@@ -189,7 +188,7 @@ def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 			else:
 				# otherwise if it doesn't match at all
 				# set the number to match the current index number
-				fix_numbering(filename_list,file_path_list,regex,file_dict_master)
+				fix_numbering(proc_file_list,proc_filePath_list,regex)
 
 def analyze_files(foldername,filename_list,file_path_list,file_dict_master):
 	# generate list of file names and corresponding list of paths to each of those file names that will be altered
@@ -219,15 +218,20 @@ def analyze_files(foldername,filename_list,file_path_list,file_dict_master):
 
 	check_numbering(filename_list,file_path_list,prefix_regex2,file_dict_master)
 
-def fix_numbering(filename_list,file_path_list,regex,file_dict_master):
+def fix_numbering(proc_file_list,proc_filePath_list,regex):
 	# rename all later files after a gap is discovered so numbering is in sync
 	# change the filename using regex substitution
 	# then find its corresponding position on the file_path_list
 	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
 	
+	max_num = highest_labelled_number(user_input_folder,prefix_regex2)
 
+	for filename in proc_file_list:
+		# if the filename's number matches (index + 1) do nothing
+		# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
+		pass
 
-	pass
+	pass # keep enabled until ready to test
 
 #####################################
 # EXECUTION
@@ -241,11 +245,11 @@ analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
 # 	print(k, v)
 
 # for testing
-for filename in proc_file_list:
-	print(filename)
+# for filename in proc_file_list:
+# 	print(filename)
 
-for filepath in proc_filePath_list:
-	print(filepath)
+# for filepath in proc_filePath_list:
+# 	print(filepath)
 
 #####################################
 # END EXECUTION
