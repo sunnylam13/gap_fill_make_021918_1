@@ -149,5 +149,8 @@ However your loop needs to analyze the filename of ALL the files, which means th
 
 So that means we need to use regex to find the number of the very last and/or highest numbered file.
 
+## Tuesday, February 20, 2018 4:50 PM
+
+> Remember that Python’s string literals also use a backslash followed by numbers to allow including arbitrary characters in a string, so be sure to use a raw string when incorporating backreferences in a RE. [Source](https://docs.python.org/3/howto/regex.html)
 
 

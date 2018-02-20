@@ -33,3 +33,5 @@ gap, filenames, renaming
 [Iterating Key Value Pairs in a Py3 Dict](https://stackoverflow.com/questions/26660654/how-do-i-print-the-key-value-pairs-of-a-dictionary-in-python/26660785)
 
 [Add Key Value Pair to Dict](https://stackoverflow.com/questions/3776275/how-to-add-key-value-pair-to-dictionary/28380174)
+
+[Good Reference on Using Groups for Regex and String Substitution](https://docs.python.org/3/howto/regex.html)
