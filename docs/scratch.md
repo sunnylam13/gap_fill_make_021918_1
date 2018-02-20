@@ -132,3 +132,7 @@ We cycle through all possible numbers...
 And then we find out the problem is that also doesn't work too well because your list now has gaps however you need to rename the file in the next position.
 
 
+## Monday, February 19, 2018 8:30 PM
+
+Weirdly it seems every other file except 1 and 3 in the number order is in the right order...
+
