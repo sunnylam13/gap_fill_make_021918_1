@@ -20,6 +20,10 @@ incomplete
 
 	../docs/testFolder1
 
+The zip file archive of it is the original that should be used.  
+
+Just unzip it and run the program.
+
 ## Tags
 
 gap, filenames, renaming
