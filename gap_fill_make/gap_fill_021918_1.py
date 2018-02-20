@@ -175,10 +175,7 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 def rename_files(filename,proc_file_list,proc_filePath_list,regex):
 	analyze_filename = regex.search(filename)
 	current_filename_index = proc_file_list.index(filename)
-	# max_num = highest_labelled_number(user_input_folder,prefix_regex2)
-
-	number_of_gaps = 0
-
+	
 	# if the filename's number matches (index + 1)
 	# just add the file name and file path to file_list_final, filePath_list_final
 	if int(analyze_filename.group('numbering')) == (current_filename_index + 1): # we add + 1 because indexes start at 0
