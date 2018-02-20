@@ -260,30 +260,28 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 			# 	# # use shutil.move to rename the file
 			# 	# shutil.move(old_path,new_path)
 			
-			for index in range(current_filename_index,len(proc_file_list)):
+			sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
+			new_filename = regex.sub(sub_in_change,filename)
 
-				# print("This is working.") # test
+			print("The new file name is:  %s" % (new_filename)) # testing
 
-				sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
-				new_filename = regex.sub(sub_in_change,filename)
+			old_path = proc_filePath_list[current_filename_index]
 
-				print("The new file name is:  %s" % (new_filename))
+			print("The old path is:  %s" % (old_path)) # testing
 
-				# old_path = proc_file_list[current_filename_index]
+			# get the dir path to the file from proc_filePath_list
+			dirPath = os.path.dirname(old_path)
 
-				# print("The old path is:  %s" % (old_path))
+			# print("The directory path is:  %s" % (dirPath)) # testing
 
-				# # get the dir path to the file from proc_filePath_list
-				# dirPath = os.path.dirname(old_path)
+			# using the new_filename and dirPath, create a new path target for re-naming
+			# new_path = os.path.join(dirPath,new_filename)
+			new_path = os.path.join(dirPath,new_filename)
 
-				# # using the new_filename and dirPath, create a new path target for re-naming
-				# # new_path = os.path.join(dirPath,new_filename)
-				# new_path = os.path.join(dirPath,new_filename)
+			print("The new path is:  %s" % (new_path)) # testing
 
-				# print("The new path is:  %s" % (new_path))
-
-				# # use shutil.move to rename the file
-				# shutil.move(old_path,new_path)
+			# # use shutil.move to rename the file
+			# shutil.move(old_path,new_path)
 
 #####################################
 # EXECUTION
