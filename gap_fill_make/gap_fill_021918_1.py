@@ -93,8 +93,12 @@ file_dict_master = {}
 # END VARIABLES
 #####################################
 
-def store_file_dict(filename,):
-	pass
+def store_file_dict(filename,filename_list,file_dict_master):
+	# store the filename and its path in file_dict_master dictionary
+	
+	filename_index = filename_list.index(file) # get the index number of file in filename_list
+	filename_path_value = file_path_list[filename_index] # get the value or filename path at the same index position as filename_index
+	file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
 
 def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 	# check files and locate numbering gaps
@@ -105,9 +109,9 @@ def check_numbering(filename_list,file_path_list,regex,file_dict_master):
 		if int(analyze_filename.group(3)) == (current_num):
 			# if the number of the filename matches the index number of its position + 1 (since index starts at 0 and we want to match 1 with 1 for example)
 			
-			filename_index = filename_list.index(file) # get the index number of file in filename_list
-			filename_path_value = file_path_list[filename_index] # get the value or filename path at the same index position as filename_index
-			file_dict_master[file] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+			# store the filename and its path in file_dict_master dictionary
+			store_file_dict(file,filename_list,file_dict_master)
+
 			current_num += 1 # increment counter
 		else:
 			# otherwise if it doesn't match at all
