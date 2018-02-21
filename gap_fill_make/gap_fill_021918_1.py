@@ -215,7 +215,7 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num
 	else:
 		# otherwise give new_num a value
 		new_num = current_filename_index+1
-		print("The new_num target number is %i" % new_num)
+		# print("The new_num target number is %i" % new_num)
 	
 	try:
 		# go to file at position (new_num) in proc_file_list
