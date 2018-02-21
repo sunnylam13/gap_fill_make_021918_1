@@ -179,71 +179,44 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,new_num = 0):
 		# otherwise give new_num a value
 		new_num = current_filename_index+1
 	
-	# go to file at position (current_filename_index + 1) in proc_file_list
-	target_fileName = proc_file_list[new_num]
+	try:
+		# go to file at position (current_filename_index + 1) in proc_file_list
+		target_fileName = proc_file_list[new_num]
+		print("The target_fileName is %s" % (target_fileName)) # testing
 
-	# search that target_fileName for its number
-	regex_result = regex.search(target_fileName) # aka. regex_result
-	# change that target_fileName to the new number (new_num) creating altered_fileName
-	altered_fileName = regex_result.group('prefixLetters') + regex_result.group('leadZeroes') + str(new_num)
-	# append that altered_fileName to file_list_final
-	file_list_final.append(altered_fileName)
+		# search that target_fileName for its number
+		regex_result = regex.search(target_fileName) # aka. regex_result
+		# change that target_fileName to the new number (new_num) creating altered_fileName
+		altered_fileName = regex_result.group('prefixLetters') + regex_result.group('leadZeroes') + str(new_num)
+		# append that altered_fileName to file_list_final
+		file_list_final.append(altered_fileName)
 
-	# create a new path for that altered_fileName in filePath_list_final
-	
-	old_path = proc_filePath_list[current_filename_index]
-	# print("The old path is:  %s" % (old_path)) # testing
-	
-	# get the dir path to the original filename from proc_filePath_list
-	dirPath = os.path.dirname(old_path)
-	# print("The directory path is:  %s" % (dirPath)) # testing
+		# create a new path for that altered_fileName in filePath_list_final
+		
+		old_path = proc_filePath_list[current_filename_index]
+		# print("The old path is:  %s" % (old_path)) # testing
+		
+		# get the dir path to the original filename from proc_filePath_list
+		dirPath = os.path.dirname(old_path)
+		# print("The directory path is:  %s" % (dirPath)) # testing
 
-	# using the altered_fileName and dirPath, create a new path target for re-naming
-	# new_path = os.path.join(dirPath,new_filename)
-	new_path = os.path.join(dirPath,new_filename)
-	# print("The new path is:  %s" % (new_path)) # testing
+		# using the altered_fileName and dirPath, create a new path target for re-naming
+		# new_path = os.path.join(dirPath,new_filename)
+		new_path = os.path.join(dirPath,new_filename)
+		# print("The new path is:  %s" % (new_path)) # testing
 
-	# push the new file path into the filePath_list_final
-	filePath_list_final.append(new_path)
+		# push the new file path into the filePath_list_final
+		filePath_list_final.append(new_path)
+	except Exception as e:
+		print("There is an error in fileNum_changer function.")
+	else:
+		pass
 
-
-	# sub_in_change = regex_result.group('prefixLetters') + regex_result.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
-	# new_filename = regex.sub(sub_in_change,filename)
-
-	# # print("The new file name is:  %s" % (new_filename)) # testing
-
-	# # push the new filename into the file_list_final
-	# file_list_final.append(new_filename)
-	
-	# old_path = proc_filePath_list[current_filename_index]
-
-	# # print("The old path is:  %s" % (old_path)) # testing
-
-	# # get the dir path to the file from proc_filePath_list
-	# dirPath = os.path.dirname(old_path)
-
-	# # print("The directory path is:  %s" % (dirPath)) # testing
-
-	# # using the new_filename and dirPath, create a new path target for re-naming
-	# # new_path = os.path.join(dirPath,new_filename)
-	# new_path = os.path.join(dirPath,new_filename)
-
-	# # print("The new path is:  %s" % (new_path)) # testing
-
-	# # push the new file path into the filePath_list_final
-	# filePath_list_final.append(new_path)
 
 def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	regex_result = regex.search(filename) # aka. regex_result
 	current_filename_index = proc_file_list.index(filename)
 	file_old_num = int(regex_result.group('numbering'))
-
-	# try:
-	#     b = a.index(7)
-	# except ValueError:
-	#     "Do nothing"
-	# else:
-	#     "Do something with variable b"
 
 	# find the file with number 1
 	# if you can't find it then, cycle through proc_file_list until you do
@@ -272,73 +245,6 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	else:
 		pass
 
-	# # if the filename's number matches (index + 1)
-	# # just add the file name and file path to file_list_final, filePath_list_final
-	# if int(regex_result.group('numbering')) == (current_filename_index + 1): # we add + 1 because indexes start at 0
-	# 	file_list_final.append(filename)
-	# 	filePath_list_final.append(proc_filePath_list[current_filename_index])
-	# # if the filename's number does not match (index + 1), grab the next file and rename it so that it does match (index + 1)
-	# # then store it in another list rather than changing the current one in case we need the old list
-	# # we do the same with the file path
-	# elif int(regex_result.group('numbering')) is not (current_filename_index + 1) and not (int(regex_result.group('numbering')) == (highest_label_num)):		
-	# 	sub_in_change = regex_result.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
-	# 	new_filename = regex.sub(sub_in_change,filename)
-
-	# 	# print("The new file name is:  %s" % (new_filename)) # testing
-
-	# 	# push the new filename into the file_list_final
-	# 	file_list_final.append(new_filename)
-		
-	# 	old_path = proc_filePath_list[current_filename_index]
-
-	# 	# print("The old path is:  %s" % (old_path)) # testing
-
-	# 	# get the dir path to the file from proc_filePath_list
-	# 	dirPath = os.path.dirname(old_path)
-
-	# 	# print("The directory path is:  %s" % (dirPath)) # testing
-
-	# 	# using the new_filename and dirPath, create a new path target for re-naming
-	# 	# new_path = os.path.join(dirPath,new_filename)
-	# 	new_path = os.path.join(dirPath,new_filename)
-
-	# 	# print("The new path is:  %s" % (new_path)) # testing
-
-	# 	# push the new file path into the filePath_list_final
-	# 	filePath_list_final.append(new_path)
-		
-	# elif int(regex_result.group('numbering')) == (highest_label_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
-	# 	# we should set this file's number to the last index number of the proc_filePath_list (no matter what it is)
-					
-	# 	# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
-
-	# 	sub_in_change = regex_result.group('prefixLetters') + regex_result.group('leadZeroes') + str(true_max_num) # this is the current number we want to fill in, don't forget to convert number into a string
-	# 	new_filename = regex.sub(sub_in_change,filename)
-
-	# 	# print("The new file name is:  %s" % (new_filename)) # testing
-
-	# 	# push the new filename into the file_list_final
-	# 	file_list_final.append(new_filename)
-		
-	# 	old_path = proc_filePath_list[current_filename_index]
-
-	# 	# print("The old path is:  %s" % (old_path)) # testing
-
-	# 	# get the dir path to the file from proc_filePath_list
-	# 	dirPath = os.path.dirname(old_path)
-
-	# 	# print("The directory path is:  %s" % (dirPath)) # testing
-
-	# 	# using the new_filename and dirPath, create a new path target for re-naming
-	# 	# new_path = os.path.join(dirPath,new_filename)
-	# 	new_path = os.path.join(dirPath,new_filename)
-
-	# 	# print("The new path is:  %s" % (new_path)) # testing
-
-	# 	# push the new file path into the filePath_list_final
-	# 	filePath_list_final.append(new_path)
-	# else:
-	# 	pass
 
 def rename_files(old_file_path,new_file_path):
 	# use shutil.move to rename the file
