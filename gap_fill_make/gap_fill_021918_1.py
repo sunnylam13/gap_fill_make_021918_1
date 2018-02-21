@@ -169,7 +169,7 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 
 	rename_files(proc_filePath_list,filePath_list_final)
 
-def fileNum_changer(filename,current_filename_index,proc_file_list,new_num = 0):
+def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num = 0):
 	# helper function for setup_src_dst_paths()
 	
 	if new_num:
@@ -181,8 +181,8 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,new_num = 0):
 	
 	try:
 		# go to file at position (current_filename_index + 1) in proc_file_list
-		target_fileName = proc_file_list[new_num]
-		print("The target_fileName is %s" % (target_fileName)) # testing
+		target_fileName = proc_file_list[current_filename_index]
+		# print("The target_fileName is %s" % (target_fileName)) # testing
 
 		# search that target_fileName for its number
 		regex_result = regex.search(target_fileName) # aka. regex_result
@@ -201,8 +201,7 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,new_num = 0):
 		# print("The directory path is:  %s" % (dirPath)) # testing
 
 		# using the altered_fileName and dirPath, create a new path target for re-naming
-		# new_path = os.path.join(dirPath,new_filename)
-		new_path = os.path.join(dirPath,new_filename)
+		new_path = os.path.join(dirPath,altered_fileName)
 		# print("The new path is:  %s" % (new_path)) # testing
 
 		# push the new file path into the filePath_list_final
@@ -227,7 +226,7 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	# rinse and repeat
 
 	try:
-		for x in len(proc_file_list):
+		for x in range(0,len(proc_file_list)):
 			# where x starts at 0 position
 			# where we want to start our search with 1 (meaning x + 1)
 			target_num = x + 1
@@ -239,9 +238,12 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 					filePath_list_final.append(proc_filePath_list[current_filename_index])
 				elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
 					# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
-					fileNum_changer(filename,current_filename_index,proc_file_list)
+					fileNum_changer(filename,current_filename_index,proc_file_list,regex)
 				elif file_old_num == highest_label_num:
-					fileNum_changer(filename,current_filename_index,proc_file_list,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
+					fileNum_changer(filename,current_filename_index,proc_file_list,regex,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
+
+		# print(file_list_final)
+		# print(filePath_list_final)
 	except Exception as e:
 		print("There's an error in your setup_src_dst_paths function:  ")
 		print(e)
