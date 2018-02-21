@@ -208,7 +208,8 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,new_num = 0):
 		# push the new file path into the filePath_list_final
 		filePath_list_final.append(new_path)
 	except Exception as e:
-		print("There is an error in fileNum_changer function.")
+		print("There is an error in fileNum_changer function.\n\n")
+		print(e)
 	else:
 		pass
 
@@ -241,7 +242,8 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 				elif file_old_num == highest_label_num:
 					fileNum_changer(filename,current_filename_index,proc_file_list,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
 	except Exception as e:
-		print("There's an error in your src and dst file path creation.")
+		print("There's an error in your src and dst file path creation.\n\n")
+		print(e)
 	else:
 		pass
 
@@ -250,7 +252,8 @@ def rename_files(old_file_path,new_file_path):
 	# use shutil.move to rename the file
 	# shutil.move(old_path,new_path)
 
-	for item in old_file_path:
+	try:
+		for item in old_file_path:
 		# item is the old file path
 		get_item_index = old_file_path.index(item)
 
@@ -258,6 +261,13 @@ def rename_files(old_file_path,new_file_path):
 		print("The new file path is:  %s" % (new_file_path[get_item_index]))
 
 		# shutil.move(item,new_file_path[get_item_index])
+	except Exception as e:
+		print("There is an error in rename_files function.  The error is:\n")
+		print(e)
+	else:
+		pass
+
+	
 
 #####################################
 # EXECUTION
