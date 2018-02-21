@@ -169,9 +169,37 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 
 	rename_files(proc_filePath_list,filePath_list_final)
 
+def fileNum_changer(filename,regex_result,current_filename_index):
+	sub_in_change = regex_result.group('prefixLetters') + regex_result.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
+	new_filename = regex.sub(sub_in_change,filename)
+
+	# print("The new file name is:  %s" % (new_filename)) # testing
+
+	# push the new filename into the file_list_final
+	file_list_final.append(new_filename)
+	
+	old_path = proc_filePath_list[current_filename_index]
+
+	# print("The old path is:  %s" % (old_path)) # testing
+
+	# get the dir path to the file from proc_filePath_list
+	dirPath = os.path.dirname(old_path)
+
+	# print("The directory path is:  %s" % (dirPath)) # testing
+
+	# using the new_filename and dirPath, create a new path target for re-naming
+	# new_path = os.path.join(dirPath,new_filename)
+	new_path = os.path.join(dirPath,new_filename)
+
+	# print("The new path is:  %s" % (new_path)) # testing
+
+	# push the new file path into the filePath_list_final
+	filePath_list_final.append(new_path)
+
 def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
-	analyze_filename = regex.search(filename)
+	regex_result = regex.search(filename) # aka. regex_result
 	current_filename_index = proc_file_list.index(filename)
+	file_old_num = int(regex_result.group('numbering'))
 
 	# try:
 	#     b = a.index(7)
@@ -186,18 +214,36 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
 	# rinse and repeat
 
-	
+	try:
+		for x in len(proc_file_list):
+			# where x starts at 0 position
+			# where we want to start our search with 1 (meaning x + 1)
+			target_num = x + 1
+			# now we cycle through each file list to find target_num
+			for filename in proc_file_list:
+				index_pos_filename = proc_file_list.index(filename)
+				if file_old_num == target_num: # if the file's number matches the number it should be
+					file_list_final.append(filename)
+					filePath_list_final.append(proc_filePath_list[current_filename_index])
+				elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
+					# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
+
+		
+	except Exception as e:
+		pass
+	else:
+		pass
 
 	# if the filename's number matches (index + 1)
 	# just add the file name and file path to file_list_final, filePath_list_final
-	if int(analyze_filename.group('numbering')) == (current_filename_index + 1): # we add + 1 because indexes start at 0
+	if int(regex_result.group('numbering')) == (current_filename_index + 1): # we add + 1 because indexes start at 0
 		file_list_final.append(filename)
 		filePath_list_final.append(proc_filePath_list[current_filename_index])
 	# if the filename's number does not match (index + 1), grab the next file and rename it so that it does match (index + 1)
 	# then store it in another list rather than changing the current one in case we need the old list
 	# we do the same with the file path
-	elif int(analyze_filename.group('numbering')) is not (current_filename_index + 1) and not (int(analyze_filename.group('numbering')) == (highest_label_num)):		
-		sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
+	elif int(regex_result.group('numbering')) is not (current_filename_index + 1) and not (int(regex_result.group('numbering')) == (highest_label_num)):		
+		sub_in_change = regex_result.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(current_filename_index + 1) # this is the current number we want to fill in, don't forget to convert number into a string
 		new_filename = regex.sub(sub_in_change,filename)
 
 		# print("The new file name is:  %s" % (new_filename)) # testing
@@ -223,12 +269,12 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 		# push the new file path into the filePath_list_final
 		filePath_list_final.append(new_path)
 		
-	elif int(analyze_filename.group('numbering')) == (highest_label_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
+	elif int(regex_result.group('numbering')) == (highest_label_num): # if it matches the highest number we've analyzed, not necessarily the last index number i.e. 007
 		# we should set this file's number to the last index number of the proc_filePath_list (no matter what it is)
 					
 		# if the filename's number does not match (index + 1), grab the file right after it and rename it so that it does match (index + 1)
 
-		sub_in_change = analyze_filename.group('prefixLetters') + analyze_filename.group('leadZeroes') + str(true_max_num) # this is the current number we want to fill in, don't forget to convert number into a string
+		sub_in_change = regex_result.group('prefixLetters') + regex_result.group('leadZeroes') + str(true_max_num) # this is the current number we want to fill in, don't forget to convert number into a string
 		new_filename = regex.sub(sub_in_change,filename)
 
 		# print("The new file name is:  %s" % (new_filename)) # testing
