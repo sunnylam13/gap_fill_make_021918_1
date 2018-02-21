@@ -168,4 +168,21 @@ You need to figure out how to handle that situation.
 
 Simple change it to the last number of the index of the filename path list as it has to be the last one anyone no matter what.
 
+## Wednesday, February 21, 2018 10:25 AM
+
+We're going to try and find the file number using a find command for lists.
+
+	# try:
+	#     b = a.index(7)
+	# except ValueError:
+	#     "Do nothing"
+	# else:
+	#     "Do something with variable b"
+
+	# find the file with number 1
+	# if you can't find it then, cycle through proc_file_list until you do
+	# if you find it add it to the file_list_final,filePath_list_final
+	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
+	# rinse and repeat
+
 
