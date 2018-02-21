@@ -185,4 +185,9 @@ We're going to try and find the file number using a find command for lists.
 	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
 	# rinse and repeat
 
+## Wednesday, February 21, 2018 11:53 AM
+
+We need to account for the case were the index is 0 and the new target number is 1.
+
+There aren't many numbering schemes that start with file0000.txt.
 

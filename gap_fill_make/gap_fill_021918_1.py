@@ -173,6 +173,7 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	regex_result = regex.search(filename) # aka. regex_result
 	current_filename_index = proc_file_list.index(filename)
 	file_old_num = int(regex_result.group('numbering'))
+	print("The file's original label number is:  %i" % current_filename_index)
 
 	# find the file with number 1
 	# if you can't find it then, cycle through proc_file_list until you do
@@ -181,24 +182,22 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	# rinse and repeat
 
 	try:
-		for x in range(0,len(proc_file_list)):
-			# where x starts at 0 position
-			# where we want to start our search with 1 (meaning x + 1)
-			target_num = x + 1
-			# now we cycle through each file list to find target_num
-			for filename in proc_file_list:
-				index_pos_filename = proc_file_list.index(filename)
-				if file_old_num == target_num: # if the file's number matches the number it should be
-					file_list_final.append(filename)
-					filePath_list_final.append(proc_filePath_list[current_filename_index])
-				elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
-					# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
-					fileNum_changer(filename,current_filename_index,proc_file_list,regex)
-				elif file_old_num == highest_label_num:
-					fileNum_changer(filename,current_filename_index,proc_file_list,regex,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
+		current_filename_index = proc_file_list.index(filename)
+		print("The filename index position is:  %i" % (current_filename_index))
+		# where we want to start our search with 1 (meaning x + 1)
+		target_num = current_filename_index + 1
 
-		# print(file_list_final)
-		# print(filePath_list_final)
+		if file_old_num == target_num: # if the file's number matches the number it should be
+			file_list_final.append(filename)
+			filePath_list_final.append(proc_filePath_list[current_filename_index])
+		elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
+			# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
+			fileNum_changer(filename,current_filename_index,proc_file_list,regex)
+		elif file_old_num == highest_label_num:
+			fileNum_changer(filename,current_filename_index,proc_file_list,regex,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
+
+	# print(file_list_final)
+	# print(filePath_list_final)
 	except Exception as e:
 		print("There's an error in your setup_src_dst_paths function:  ")
 		print(e)
@@ -211,14 +210,16 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num
 	
 	if new_num:
 		# if new_num argument is passed skip this logic code
+		print(new_num)
 		pass
 	else:
 		# otherwise give new_num a value
 		new_num = current_filename_index+1
+		print("The new_num target number is %i" % new_num)
 	
 	try:
-		# go to file at position (current_filename_index + 1) in proc_file_list
-		target_fileName = proc_file_list[current_filename_index]
+		# go to file at position (new_num) in proc_file_list
+		target_fileName = proc_file_list[new_num]
 		# print("The target_fileName is %s" % (target_fileName)) # testing
 
 		# search that target_fileName for its number
