@@ -169,6 +169,43 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 
 	rename_files(proc_filePath_list,filePath_list_final)
 
+def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
+	regex_result = regex.search(filename) # aka. regex_result
+	current_filename_index = proc_file_list.index(filename)
+	file_old_num = int(regex_result.group('numbering'))
+
+	# find the file with number 1
+	# if you can't find it then, cycle through proc_file_list until you do
+	# if you find it add it to the file_list_final,filePath_list_final
+	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
+	# rinse and repeat
+
+	try:
+		for x in range(0,len(proc_file_list)):
+			# where x starts at 0 position
+			# where we want to start our search with 1 (meaning x + 1)
+			target_num = x + 1
+			# now we cycle through each file list to find target_num
+			for filename in proc_file_list:
+				index_pos_filename = proc_file_list.index(filename)
+				if file_old_num == target_num: # if the file's number matches the number it should be
+					file_list_final.append(filename)
+					filePath_list_final.append(proc_filePath_list[current_filename_index])
+				elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
+					# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
+					fileNum_changer(filename,current_filename_index,proc_file_list,regex)
+				elif file_old_num == highest_label_num:
+					fileNum_changer(filename,current_filename_index,proc_file_list,regex,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
+
+		# print(file_list_final)
+		# print(filePath_list_final)
+	except Exception as e:
+		print("There's an error in your setup_src_dst_paths function:  ")
+		print(e)
+		print("\n\n")
+	else:
+		pass
+
 def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num = 0):
 	# helper function for setup_src_dst_paths()
 	
@@ -212,45 +249,6 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num
 		print("\n\n")
 	else:
 		pass
-
-
-def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
-	regex_result = regex.search(filename) # aka. regex_result
-	current_filename_index = proc_file_list.index(filename)
-	file_old_num = int(regex_result.group('numbering'))
-
-	# find the file with number 1
-	# if you can't find it then, cycle through proc_file_list until you do
-	# if you find it add it to the file_list_final,filePath_list_final
-	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
-	# rinse and repeat
-
-	try:
-		for x in range(0,len(proc_file_list)):
-			# where x starts at 0 position
-			# where we want to start our search with 1 (meaning x + 1)
-			target_num = x + 1
-			# now we cycle through each file list to find target_num
-			for filename in proc_file_list:
-				index_pos_filename = proc_file_list.index(filename)
-				if file_old_num == target_num: # if the file's number matches the number it should be
-					file_list_final.append(filename)
-					filePath_list_final.append(proc_filePath_list[current_filename_index])
-				elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
-					# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
-					fileNum_changer(filename,current_filename_index,proc_file_list,regex)
-				elif file_old_num == highest_label_num:
-					fileNum_changer(filename,current_filename_index,proc_file_list,regex,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
-
-		# print(file_list_final)
-		# print(filePath_list_final)
-	except Exception as e:
-		print("There's an error in your setup_src_dst_paths function:  ")
-		print(e)
-		print("\n\n")
-	else:
-		pass
-
 
 def rename_files(old_file_path,new_file_path):
 	# use shutil.move to rename the file
