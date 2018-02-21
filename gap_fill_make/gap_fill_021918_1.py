@@ -158,7 +158,7 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
 	
 	for filename in proc_file_list:
-		# print("Filename to be analyzed is:  %s" % (filename))
+		print("Filename to be analyzed is:  %s" % (filename))
 		# analyze_filename = regex.search(filename)
 		# current_filename_index = proc_file_list.index(filename)
 		
@@ -190,6 +190,8 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 		if file_old_num == target_num: # if the file's number matches the number it should be
 			file_list_final.append(filename)
 			filePath_list_final.append(proc_filePath_list[current_filename_index])
+			# print(file_list_final)
+			# print(filePath_list_final)
 		elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
 			# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
 			fileNum_changer(filename,current_filename_index,proc_file_list,regex)
@@ -210,7 +212,7 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num
 	
 	if new_num:
 		# if new_num argument is passed skip this logic code
-		print(new_num)
+		# print(new_num)
 		pass
 	else:
 		# otherwise give new_num a value
@@ -220,7 +222,7 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num
 	try:
 		# go to file at position (new_num) in proc_file_list
 		target_fileName = proc_file_list[new_num]
-		# print("The target_fileName is %s" % (target_fileName)) # testing
+		print("The target_fileName is %s" % (target_fileName)) # testing
 
 		# search that target_fileName for its number
 		regex_result = regex.search(target_fileName) # aka. regex_result

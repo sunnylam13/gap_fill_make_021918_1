@@ -37,3 +37,6 @@ gap, filenames, renaming
 [Good Reference on Using Groups for Regex and String Substitution](https://docs.python.org/3/howto/regex.html)
 
 [check if a value exists in a list](https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exist-in-a-list)
+
+[check if list item contains a string inside another string](https://stackoverflow.com/questions/4843158/check-if-a-python-list-item-contains-a-string-inside-another-string)
+
