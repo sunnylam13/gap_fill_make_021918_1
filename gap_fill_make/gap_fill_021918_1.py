@@ -222,10 +222,15 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 			# print(filePath_list_final)
 		elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
 			# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
+			# print("(file_old_num is not target_num) and (file_old_num is not highest_label_num) works")
 			fileNum_changer(filename,current_filename_index,proc_file_list,regex)
-		
+		else:
+			pass
+
 		if file_old_num == highest_label_num:
-			fileNum_changer(filename,current_filename_index,proc_file_list,regex,true_max_num) # alter default parameter new_num = 0 to new_num = true_max_num
+			# use len(proc_file_list) to get the last number that the last file should have not true_max_num...
+			print("`file_old_num == highest_label_num` works")
+			fileNum_changer(filename,current_filename_index,proc_file_list,regex,current_filename_index) # can't use current_filename_index + 1 here or it goes out of range, can do it within fileNum_changer
 	except Exception as e:
 		print("There's an error in your setup_src_dst_paths function:  ")
 		print(e)
@@ -236,19 +241,29 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num = 0):
 	# helper function for setup_src_dst_paths()
 	
-	if new_num:
-		# if new_num argument is passed skip this logic code
-		# print(new_num)
-		pass
-	else:
-		# otherwise give new_num a value
-		new_num = current_filename_index+1
-		# print("The new_num target number is %i" % new_num)
+	# if new_num:
+	# 	# if new_num argument is passed skip this logic code
+	# 	# print(new_num)
+	# 	pass
+	# else:
+	# 	# otherwise give new_num a value
+	# 	new_num = current_filename_index+1
+	# 	# print("The new_num target number is %i" % new_num)
 	
+	new_num = current_filename_index+1
+
 	try:
 
 		# go to file at position (new_num) in proc_file_list
-		target_fileName = proc_file_list[new_num]
+		# target_fileName = proc_file_list[new_num]
+
+		# need logic code here in case of `list index out of range` error
+		
+		if not proc_file_list[new_num]: # if the target filename doesn't exist
+			target_fileName = proc_file_list[current_filename_index]
+		else:
+			target_fileName = proc_file_list[new_num]
+
 		print("The target_fileName is %s" % (target_fileName)) # testing
 
 		# search that target_fileName for its number
