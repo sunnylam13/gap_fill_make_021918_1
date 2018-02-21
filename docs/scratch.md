@@ -191,3 +191,21 @@ We need to account for the case were the index is 0 and the new target number is
 
 There aren't many numbering schemes that start with file0000.txt.
 
+## Wednesday, February 21, 2018 12:09 PM
+
+Consider using match() or other methods to find the string filename that you want in a list.
+
+[check if list item contains a string inside another string](https://stackoverflow.com/questions/4843158/check-if-a-python-list-item-contains-a-string-inside-another-string)
+
+	>>> lst = ['abc-123', 'def-456', 'ghi-789', 'abc-456']
+	>>> print filter(lambda x: 'abc' in x, lst)
+	['abc-123', 'abc-456']
+	You can also use a list comprehension.
+
+	>>> [x for x in lst if 'abc' in x]
+
+hmm...
+
+	target_matches = filter(lambda x: filename in x, proc_file_list) # search for proc_file_list[current_filename_index] value, this is a list, convert to string for use
+
+

@@ -24,6 +24,10 @@ The zip file archive of it is the original that should be used.
 
 Just unzip it and run the program.
 
+## Regex
+
+https://regexr.com/3l545 # `(^[a-z]+)(0*)([1-9]*)(\..*$)`
+
 ## Tags
 
 gap, filenames, renaming
