@@ -172,8 +172,9 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	regex_result = regex.search(filename) # aka. regex_result
 	current_filename_index = proc_file_list.index(filename)
+	print("The current filename index position is:  %i" % current_filename_index)
 	file_old_num = int(regex_result.group('numbering'))
-	print("The file's original label number is:  %i" % current_filename_index)
+	print("The file's original label number is:  %i" % file_old_num)
 
 	# find the file with number 1
 	# if you can't find it then, cycle through proc_file_list until you do
@@ -182,8 +183,7 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	# rinse and repeat
 
 	try:
-		current_filename_index = proc_file_list.index(filename)
-		print("The filename index position is:  %i" % (current_filename_index))
+		
 		# where we want to start our search with 1 (meaning x + 1)
 		target_num = current_filename_index + 1
 
