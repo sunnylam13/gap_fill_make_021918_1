@@ -127,13 +127,7 @@ def highest_labelled_number (user_input_folder,regex):
 
 highest_label_num = highest_labelled_number(user_input_folder,prefix_regex2)
 
-# def store_file_dict(filename,filename_list,file_path_list,file_dict_master,file_current_index):
-# 	# store the filename and its path in file_dict_master dictionary
-	
-# 	filename_path_value = file_path_list[file_current_index] # get the value or filename path at the same index position as filename_index
-# 	# print(filename_path_value)
-	
-# 	file_dict_master[filename] = filename_path_value # if it matches, store it in a dict with the filename as the key and its filepath as the value
+
 
 def analyze_files(user_input_folder,filename_list,file_path_list,regex):
 	# generate list of file names and corresponding list of paths to each of those file names that will be altered
