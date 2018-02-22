@@ -169,7 +169,7 @@ def fix_numbering(proc_file_list,proc_filePath_list,regex):
 		
 		setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex) # should assign it in the order of the returned values from the function
 
-	rename_files(proc_filePath_list,filePath_list_final)
+	# rename_files(proc_filePath_list,filePath_list_final)
 
 	# testing
 	print("The proc_file_list is:\n")
@@ -315,11 +315,14 @@ def rename_files(old_file_path,new_file_path):
 		for item in old_file_path:
 		# item is the old file path
 			get_item_index = old_file_path.index(item)
-
-		print("The old file path replaced:  %s" % (item))
-		print("The new file path is:  %s" % (new_file_path[get_item_index]))
-
-		# shutil.move(item,new_file_path[get_item_index])
+			
+			if item == new_file_path[get_item_index]:
+				print("The old file path was not replaced:  %s" % (item))
+				pass
+			else:
+				print("The old file path replaced:  %s" % (item))
+				print("The new file path is:  %s" % (new_file_path[get_item_index]))
+				shutil.move(item,new_file_path[get_item_index])
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
 		print(e)
@@ -337,6 +340,8 @@ def rename_files(old_file_path,new_file_path):
 # analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
 
 analyze_files(user_input_folder,filename_list,file_path_list,prefix_regex2)
+
+rename_files(proc_filePath_list,filePath_list_final)
 
 # for testing
 # for k, v in file_dict_master.items():
