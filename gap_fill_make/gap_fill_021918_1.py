@@ -100,6 +100,7 @@ proc_filePath_list = []
 # we need the number of files in the use input directory so we know what the final number to use is
 
 true_max_num = len(os.listdir(user_input_folder)) # actual upper limit of numbering unlike highest_labelled_number()
+print("The true_max_num is:  %i\n" % true_max_num)
 
 file_list_final = []
 
@@ -212,6 +213,7 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 		if file_old_num == target_num: # if the file's number matches the number it should be
 			file_list_final.append(filename)
 			filePath_list_final.append(proc_filePath_list[current_filename_index])
+			print("\n")
 			# print(file_list_final)
 			# print(filePath_list_final)
 		elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
@@ -224,7 +226,7 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 		if file_old_num == highest_label_num:
 			# use len(proc_file_list) to get the last number that the last file should have not true_max_num...
 			print("`file_old_num == highest_label_num` works")
-			fileNum_changer(filename,current_filename_index,proc_file_list,regex,current_filename_index) # can't use current_filename_index + 1 here or it goes out of range, can do it within fileNum_changer
+			fileNum_changer(filename,current_filename_index,proc_file_list,regex,true_max_num) # can't use current_filename_index + 1 here or it goes out of range, can do it within fileNum_changer
 	except Exception as e:
 		print("There's an error in your setup_src_dst_paths function:  ")
 		print(e)
@@ -232,19 +234,20 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	else:
 		pass
 
-def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num = 0):
+def fileNum_changer(filename,current_filename_index,proc_file_list,regex,max_num=0):
 	# helper function for setup_src_dst_paths()
 	
-	# if new_num:
-	# 	# if new_num argument is passed skip this logic code
-	# 	# print(new_num)
-	# 	pass
-	# else:
-	# 	# otherwise give new_num a value
-	# 	new_num = current_filename_index+1
-	# 	# print("The new_num target number is %i" % new_num)
+	if max_num > 0:
+		# if new_num argument is passed skip this logic code
+		# print(new_num)
+		new_num = max_num
+		print("If this is the last file, new_num index is:  %i" % new_num)
+	else:
+		# otherwise give new_num a value
+		new_num = current_filename_index+1
+		print("The non-last file new_num target number is %i" % new_num)
 	
-	new_num = current_filename_index+1
+	# new_num = current_filename_index+1
 
 	try:
 
@@ -258,7 +261,7 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,new_num
 		else:
 			target_fileName = proc_file_list[new_num]
 
-		print("The target_fileName is %s" % (target_fileName)) # testing
+		print("The target_fileName is %s\n" % (target_fileName)) # testing
 
 		# search that target_fileName for its number
 		regex_result = regex.search(target_fileName) # aka. regex_result
