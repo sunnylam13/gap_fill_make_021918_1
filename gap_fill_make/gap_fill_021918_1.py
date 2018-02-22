@@ -252,6 +252,7 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,max_num
 	try:
 
 		# go to file at position (new_num) in proc_file_list
+		# change current file `filename` so that its numbering matches `new_num`
 		# target_fileName = proc_file_list[new_num]
 
 		# need logic code here in case of `list index out of range` error
