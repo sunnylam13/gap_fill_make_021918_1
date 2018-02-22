@@ -284,16 +284,9 @@ def rename_files(old_file_path,new_file_path):
 # EXECUTION
 #####################################
 
-# analyze_files(user_input_folder,folder_path_list,file_path_list)
-# analyze_files(user_input_folder,filename_list_f,file_path_list,file_dict_master)
-
 analyze_files(user_input_folder,filename_list,file_path_list,prefix_regex2)
 
 rename_files(proc_filePath_list,filePath_list_final)
-
-# for testing
-# for k, v in file_dict_master.items():
-# 	print(k, v)
 
 # for testing
 # for filename in proc_file_list:
