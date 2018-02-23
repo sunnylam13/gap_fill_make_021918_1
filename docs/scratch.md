@@ -230,6 +230,30 @@ This means we'll need to take the input of "insert before" or "insert after" or 
 
 You could make this a one line input if you write regex to find "insert before" and "insert after" and the number and use regex groups so you can analyze each part for internal logic.
 
+	# https://regexr.com/3l8tl
+	user_cmnd_before_regex1 = re.compile(r'''
+			(?P<command>before) # this is the before command given by user
+			(?P<space>\s) # this is the space between command and the file number user wants to insert before
+			(?P<number>\d+) # this is the file number
+		''', re.VERBOSE)
+
+	# https://regexr.com/3l8tu
+	user_cmnd_after_regex1 = re.compile(r'''
+			(?P<command>after) # this is the after command given by user
+			(?P<space>\s) # this is the space between command and the file number user wants to insert before
+			(?P<number>\d+) # this is the file number
+		''', re.VERBOSE)
+
+better...
+
+	# https://regexr.com/3l911
+	# after|before
+	user_cmnd_any_regex1 = re.compile(r'''
+			(?P<command>after|before) # this is the command given by user
+			(?P<space>\s) # this is the space between command and the file number user wants to insert before
+			(?P<number>\d+) # this is the file number
+		''', re.VERBOSE)
+
 Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
 
 Get the directory path for the folder to create file paths for the original list of numbered files.

@@ -80,19 +80,28 @@ filePath_list_final = []
 
 # find out whether the user commanded "before/after" "#" using regex
 
-# https://regexr.com/3l8tl
-user_cmnd_before_regex1 = re.compile(r'''
-		(?P<command>before) # this is the before command given by user
+# # https://regexr.com/3l8tl
+# user_cmnd_before_regex1 = re.compile(r'''
+# 		(?P<command>before) # this is the before command given by user
+# 		(?P<space>\s) # this is the space between command and the file number user wants to insert before
+# 		(?P<number>\d+) # this is the file number
+# 	''', re.VERBOSE)
+
+# # https://regexr.com/3l8tu
+# user_cmnd_after_regex1 = re.compile(r'''
+# 		(?P<command>after) # this is the after command given by user
+# 		(?P<space>\s) # this is the space between command and the file number user wants to insert before
+# 		(?P<number>\d+) # this is the file number
+# 	''', re.VERBOSE)
+
+# https://regexr.com/3l911
+# after|before
+user_cmnd_any_regex1 = re.compile(r'''
+		(?P<command>after|before) # this is the command given by user
 		(?P<space>\s) # this is the space between command and the file number user wants to insert before
 		(?P<number>\d+) # this is the file number
 	''', re.VERBOSE)
 
-# https://regexr.com/3l8tu
-user_cmnd_after_regex1 = re.compile(r'''
-		(?P<command>after) # this is the after command given by user
-		(?P<space>\s) # this is the space between command and the file number user wants to insert before
-		(?P<number>\d+) # this is the file number
-	''', re.VERBOSE)
 
 # you need to analyze the file name itself to find its label number
 
@@ -127,6 +136,7 @@ def analyze_files(user_input_folder,filename_list,file_path_list):
 	for filename in filename_list:
 		# print("Current file being analyzed is:  %s" % filename) # testing
 		file_current_index = filename_list.index(filename)
+		# Create file paths for the original list of numbered files.  Store all the file paths in the original file path list.
 		process_file_lists(filename,filename_list,file_path_list,file_current_index)
 
 	# we need to fix the processing files order
@@ -140,6 +150,33 @@ def analyze_files(user_input_folder,filename_list,file_path_list):
 def process_file_lists(filename,filename_list,file_path_list,file_current_index):
 	proc_file_list.append(filename) # append the file name into the proc_file_list
 	proc_filePath_list.append(file_path_list[file_current_index]) # append the file path corresponding to the same index position as filename in filename_list
+
+def create_gap(proc_file_list,proc_filePath_list):
+	# Go to the index position of the number user entered.
+	regex_result = user_cmnd_any_regex1.search(user_number_pos_input) # use regex to analyze the user's input and find the commands and the file number
+	user_selected_cmd = regex_result.group('command')
+	user_selected_num = int(regex_result.group('number')) # store the user selected number and convert to integer
+	# Go to the index position of the number user entered.
+	
+	# If they used "insert before", change the original file name at the position and every file after by increasing it's label number by +1.  Append/store the change in the new file name list.
+	if user_selected_cmd == "before":
+		try:
+			pass
+		except Exception as e:
+			print("There is an error in creating a gap before file number %i" % user_selected_num)
+			print("The error is:  ")
+			print(e)
+		else:
+			pass
+	elif user_selected_cmd == "after":
+		try:
+			pass
+		except Exception as e:
+			print("There is an error in creating a gap after file number %i" % user_selected_num)
+			print("The error is:  ")
+			print(e)
+		else:
+			pass
 
 #####################################
 # END FUNCTIONS/METHODS
