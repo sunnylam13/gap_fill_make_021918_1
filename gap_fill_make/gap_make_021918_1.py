@@ -50,8 +50,9 @@ true_max_num = len(os.listdir(user_input_folder)) # actual upper limit of number
 # 	""")
 
 # testing
-user_number_pos_input = "before 1" # assign this so you don't have to enter a user prompt
-# user_number_pos_input = "after 5"
+# assign this so you don't have to enter a user prompt
+# user_number_pos_input = "before 1" 
+user_number_pos_input = "after 5"
 
 abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be the current working directory or cwd
 
@@ -162,10 +163,15 @@ def create_gap(proc_file_list,proc_filePath_list):
 	user_selected_num = int(regex_result.group('number')) # store the user selected number and convert to integer
 	convert_user_num_to_index_pos = user_selected_num - 1 # since index positions start at 0 and not 1, to find that numbered file's index position subtract 1... NOTE:  this assumes that there are no other gaps in numbering that are there or that don't matter, if not, you may way to run the gap filler program first and then run this program
 	
-	
 	if user_selected_cmd == "before":
 		# If they used "insert before", change the original file name at the position and every file after by increasing it's label number by +1.  Append/store the change in the new file name list.
 		try:
+			# add all of the files before the user selected file that remain unchanged
+			for x in range(0,convert_user_num_to_index_pos):
+				# append that altered_fileName to file_list_final
+				file_list_final.append(proc_file_list[x])
+				print("The unchanged filename is:  %s\n" % proc_file_list[x])
+
 			# Go to the index position of the number user entered.
 			# start a loop here that changes current index position file name and all file names after by 1
 			for x in range(convert_user_num_to_index_pos,len(proc_file_list)): # loop from user chosen file name to the end of the list
@@ -199,7 +205,33 @@ def create_gap(proc_file_list,proc_filePath_list):
 	elif user_selected_cmd == "after":
 		# If they used "insert after", don't change the original file name at the position.  Instead change every file after by increasing its label number by +1. Append/store the change in the new file name list.
 		try:
-			pass
+			# add all of the files before the user selected file that remain unchanged
+			for x in range(0,convert_user_num_to_index_pos + 1):
+				# append that altered_fileName to file_list_final
+				file_list_final.append(proc_file_list[x])
+				print("The unchanged filename is:  %s\n" % proc_file_list[x])
+
+			for x in range(convert_user_num_to_index_pos + 1,len(proc_file_list)): # loop from user chosen file name to the end of the list
+				# testing
+				print("The file analyzed is:  %s" % proc_file_list[x])
+				
+				# get the name of the file at x and create a regex object to use for constructing new name
+				
+				regex_filename_analysis = prefix_regex2.search(proc_file_list[x])
+				# use regex substitution of sorts to create new name
+				# print("The regex is:  ")
+				# print(regex_filename_analysis)
+				# print(regex_filename_analysis.group('prefixLetters'))
+				# print(regex_filename_analysis.group('leadZeroes'))
+				# print(str(convert_user_num_to_index_pos + 1))
+				# print(regex_filename_analysis.group('extension'))
+
+				# use (x+2) because (x + 1) would only give us back the current file index
+				altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension')
+				
+				# append that altered_fileName to file_list_final
+				file_list_final.append(altered_fileName)
+				print("The altered_fileName is:  %s\n" % altered_fileName)
 		except Exception as e:
 			print("There is an error in creating a gap after file number %i" % user_selected_num)
 			print("The error is:  ")
