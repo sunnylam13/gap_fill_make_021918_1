@@ -248,7 +248,6 @@ def create_gap(proc_file_list,proc_filePath_list):
 
 		filePath_list_final.append(os.path.join(user_input_folder,filename)) # even easier, since user should have already provided full absolute path for a folder outside of the current working directory
 
-
 def fix_numbering(proc_file_list,proc_filePath_list,regex):
 	# rename all later files after a gap is discovered so numbering is in sync
 	# change the filename using regex substitution
@@ -392,7 +391,7 @@ def rename_files(old_file_path,new_file_path):
 			else:
 				print("The old file path replaced:  %s" % (item))
 				print("The new file path is:  %s" % (new_file_path[get_item_index]))
-				# shutil.move(item,new_file_path[get_item_index])
+				shutil.move(item,new_file_path[get_item_index])
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
 		print(e)
@@ -424,6 +423,10 @@ print("file_list_final is:  ")
 print(file_list_final)
 print("filePath_list_final is:  ")
 print(filePath_list_final)
+
+# original and new file names and paths have been generated
+	# all that remains is to execute the change
+rename_files(proc_filePath_list,filePath_list_final)
 
 #####################################
 # END EXECUTION
