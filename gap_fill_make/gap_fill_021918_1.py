@@ -58,7 +58,7 @@ prefix_regex2 = re.compile(r'''
 # get the absolute file path of the current working directory of program
 abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be the current working directory or cwd
 
-# # list of filenames that can be indexed to the correct file path list
+# list of filenames that can be indexed to the correct file path list
 filename_list = []
 
 # a list of all files to be analyzed
@@ -122,8 +122,8 @@ def analyze_files(user_input_folder,filename_list,file_path_list,regex):
 	proc_file_list.sort()
 	proc_filePath_list.sort()
 
-	# start fixing the numbering
-	fix_numbering(proc_file_list,proc_filePath_list,regex)
+	# # start fixing the numbering
+	# fix_numbering(proc_file_list,proc_filePath_list,regex)
 
 def process_file_lists(filename,filename_list,file_path_list,file_current_index):
 	proc_file_list.append(filename) # append the file name into the proc_file_list
@@ -284,8 +284,13 @@ def rename_files(old_file_path,new_file_path):
 # EXECUTION
 #####################################
 
+# analyze the files
 analyze_files(user_input_folder,filename_list,file_path_list,prefix_regex2)
 
+# start fixing the numbering
+fix_numbering(proc_file_list,proc_filePath_list,prefix_regex2)
+
+# complete the renaming file process
 rename_files(proc_filePath_list,filePath_list_final)
 
 # for testing

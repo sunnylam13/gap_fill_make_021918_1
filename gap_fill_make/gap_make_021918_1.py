@@ -5,9 +5,11 @@
 # File Name Numbering Gap Maker - This program inserts gaps into numbered files so that a new file can be added.
 
 # USAGE
-# xxxx
+# python3 gap_fill_make_021918_1.py
 
 import os, re, shutil
+import fileFunc021918v1 as fileTools
+import gap_fill_021918_1 as gapFiller
 
 #####################################
 # VARIABLES GENERAL
@@ -47,6 +49,26 @@ true_max_num = len(os.listdir(user_input_folder)) # actual upper limit of number
 user_number_pos_input = "before 1" # assign this so you don't have to enter a user prompt
 # user_number_pos_input = "after 5"
 
+abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be the current working directory or cwd
+
+# list of the original filenames that can be indexed to the correct file path list
+filename_list = []
+
+# a list of all original file paths to be analyzed
+file_path_list = [] # a list to hold all finalized folder paths (not folder names)
+
+# processing file name list
+proc_file_list = []
+
+# processing file name path list
+proc_filePath_list = []
+
+# the final list of file names
+file_list_final = []
+
+# the final list of all new file paths (what the final copying should be)
+filePath_list_final = []
+
 #####################################
 # END VARIABLES GENERAL
 #####################################
@@ -72,6 +94,10 @@ user_cmnd_after_regex1 = re.compile(r'''
 		(?P<number>\d+) # this is the file number
 	''', re.VERBOSE)
 
+# you need to analyze the file name itself to find its label number
+
+prefix_and_number_1 = gapFiller.prefix_regex2 # get it from imported file
+
 #####################################
 # END REGEX
 #####################################
@@ -81,8 +107,27 @@ user_cmnd_after_regex1 = re.compile(r'''
 # FUNCTIONS/METHODS
 #####################################
 
-def user_input_analyze():
-	pass
+# Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
+
+def analyze_files(user_input_folder,filename_list,file_path_list):
+	# generate list of file names and corresponding list of paths to each of those file names that will be altered
+	filename_list = fileTools.scanFile(user_input_folder,file_path_list)
+
+	# create the processing files
+	# proc_file_list
+	# proc_filePath_list
+	
+	# create the processing files at last
+	for filename in filename_list:
+		# print("Current file being analyzed is:  %s" % filename) # testing
+		file_current_index = filename_list.index(filename)
+		process_file_lists(filename,filename_list,file_path_list,file_current_index)
+
+	# we need to fix the processing files order
+	# because sometimes spam003.txt starts off the list for some reason rather than spam001.txt which screws things up a bit
+	proc_file_list.sort()
+	proc_filePath_list.sort()
+
 
 #####################################
 # END FUNCTIONS/METHODS
@@ -94,7 +139,7 @@ def user_input_analyze():
 # EXECUTION
 #####################################
 
-
+analyze_files(user_input_folder,filename_list,file_path_list)
 
 #####################################
 # END EXECUTION
