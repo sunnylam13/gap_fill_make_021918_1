@@ -216,6 +216,8 @@ Actions
 
 Get the user input folder with list of numbered files.
 
+Get the number of files in the folder.
+
 Get the user input on where they want to insert the gap.
 
 Will it be between 1 and 2 or 5 and 6?

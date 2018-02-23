@@ -18,7 +18,13 @@ incomplete
 
 ## Test Folder
 
+for the gap filler/fixer program...
+
 	../docs/testFolder1
+
+for the gap maker program...
+
+	../docs/testFolder2
 
 The zip file archive of it is the original that should be used.  
 
