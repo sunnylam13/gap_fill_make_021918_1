@@ -29,6 +29,10 @@ user_input_folder = "../docs/testFolder2" # assign the folder to the input varia
 # docs/testFolder2/spam006.txt
 # docs/testFolder2/spam007.txt
 
+# get the base path of the folder
+input_folder_dir = os.path.basename(user_input_folder)
+# print("The base name path to the folder is:  %s" % input_folder_dir)
+
 # Get the number of files in the folder.
 true_max_num = len(os.listdir(user_input_folder)) # actual upper limit of numbering unlike highest_labelled_number()
 # print("The true_max_num is:  %i\n" % true_max_num)
@@ -156,12 +160,36 @@ def create_gap(proc_file_list,proc_filePath_list):
 	regex_result = user_cmnd_any_regex1.search(user_number_pos_input) # use regex to analyze the user's input and find the commands and the file number
 	user_selected_cmd = regex_result.group('command')
 	user_selected_num = int(regex_result.group('number')) # store the user selected number and convert to integer
-	# Go to the index position of the number user entered.
+	convert_user_num_to_index_pos = user_selected_num - 1 # since index positions start at 0 and not 1, to find that numbered file's index position subtract 1... NOTE:  this assumes that there are no other gaps in numbering that are there or that don't matter, if not, you may way to run the gap filler program first and then run this program
 	
-	# If they used "insert before", change the original file name at the position and every file after by increasing it's label number by +1.  Append/store the change in the new file name list.
+	
 	if user_selected_cmd == "before":
+		# If they used "insert before", change the original file name at the position and every file after by increasing it's label number by +1.  Append/store the change in the new file name list.
 		try:
-			pass
+			# Go to the index position of the number user entered.
+			# start a loop here that changes current index position file name and all file names after by 1
+			for x in range(convert_user_num_to_index_pos,len(proc_file_list)): # loop from user chosen file name to the end of the list
+				# testing
+				print("The file analyzed is:  %s" % proc_file_list[x])
+				
+				# get the name of the file at x and create a regex object to use for constructing new name
+				
+				regex_filename_analysis = prefix_regex2.search(proc_file_list[x])
+				# use regex substitution of sorts to create new name
+				# print("The regex is:  ")
+				# print(regex_filename_analysis)
+				# print(regex_filename_analysis.group('prefixLetters'))
+				# print(regex_filename_analysis.group('leadZeroes'))
+				# print(str(convert_user_num_to_index_pos + 1))
+				# print(regex_filename_analysis.group('extension'))
+
+				# use (x+2) because (x + 1) would only give us back the current file index
+				altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension')
+				
+				# append that altered_fileName to file_list_final
+				file_list_final.append(altered_fileName)
+				print("The altered_fileName is:  %s\n" % altered_fileName)
+
 		except Exception as e:
 			print("There is an error in creating a gap before file number %i" % user_selected_num)
 			print("The error is:  ")
@@ -169,6 +197,7 @@ def create_gap(proc_file_list,proc_filePath_list):
 		else:
 			pass
 	elif user_selected_cmd == "after":
+		# If they used "insert after", don't change the original file name at the position.  Instead change every file after by increasing its label number by +1. Append/store the change in the new file name list.
 		try:
 			pass
 		except Exception as e:
@@ -178,12 +207,16 @@ def create_gap(proc_file_list,proc_filePath_list):
 		else:
 			pass
 
+
+
 def fix_numbering(proc_file_list,proc_filePath_list,regex):
 	# rename all later files after a gap is discovered so numbering is in sync
 	# change the filename using regex substitution
 	# then find its corresponding position on the file_path_list
 	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
 	
+
+
 	for filename in proc_file_list:
 		print("Filename to be analyzed is:  %s" % (filename))
 		# analyze_filename = regex.search(filename)
@@ -340,10 +373,17 @@ def rename_files(old_file_path,new_file_path):
 # Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
 analyze_files(user_input_folder,filename_list,file_path_list)
 # testing
-print("proc_file_list is:  ")
-print(proc_file_list)
-print("proc_filePath_list is:  ")
-print(proc_filePath_list)
+# print("proc_file_list is:  ")
+# print(proc_file_list)
+# print("proc_filePath_list is:  ")
+# print(proc_filePath_list)
+
+create_gap(proc_file_list,proc_filePath_list)
+# testing
+print("file_list_final is:  ")
+print(file_list_final)
+print("filePath_list_final is:  ")
+print(filePath_list_final)
 
 #####################################
 # END EXECUTION
