@@ -401,36 +401,40 @@ def rename_files(old_file_path,new_file_path):
 		# item is the old file path
 			get_item_index = old_file_path.index(item)
 			
-			if item == new_file_path[get_item_index]:
-				print("The old file path was not replaced:  %s" % (item))
-				pass
-			elif (item is not new_file_path[get_item_index]) and (get_item_index is not len(old_file_path)):
-				# print("The old file path replaced:  %s" % (item))
-				# print("The new file path is:  %s" % (new_file_path[get_item_index]))
 
-				# # the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
-				# # store original filename
-				# # create a copy of said original file path
-				# prep_copy_for_rename = old_file_path[get_item_index + 1]
+			if user_selected_cmd == "after":
 
-				# # shutil.move(item,new_file_path[get_item_index])
-
-				# # place the copy back
-				
-				if user_selected_cmd == "after":
-					print("The old file path replaced:  %s" % (item))
-					print("The new file path is:  %s" % (new_file_path[get_item_index]))
-
-					# the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
-					# store original filename
-					# create a copy of said original file path
-					prep_copyAhead_for_rename = new_file_path[get_item_index + 1]
-
-					# shutil.move(item,new_file_path[get_item_index])
-
-					# place the copy back
-				elif user_selected_cmd == "before":
+				if item == new_file_path[get_item_index]:
+					print("The old file path was not replaced:  %s" % (item))
 					pass
+				elif (item is not new_file_path[get_item_index]) and (get_item_index is not len(old_file_path)):
+					# print("The old file path replaced:  %s" % (item))
+					# print("The new file path is:  %s" % (new_file_path[get_item_index]))
+
+					# # the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
+					# # store original filename
+					# # create a copy of said original file path
+					# prep_copy_for_rename = old_file_path[get_item_index + 1]
+
+					# # shutil.move(item,new_file_path[get_item_index])
+
+					# # place the copy back
+
+				print("The old file path replaced:  %s" % (item))
+				print("The new file path is:  %s" % (new_file_path[get_item_index]))
+
+				# the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
+				# store original filename
+				# create a copy of said original file path
+				prep_copyAhead_for_rename = new_file_path[get_item_index + 1]
+
+				# shutil.move(item,new_file_path[get_item_index])
+
+				# place the copy back
+			elif user_selected_cmd == "before":
+				pass
+			else:
+				print("Error - user did not provide a command!")
 
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
