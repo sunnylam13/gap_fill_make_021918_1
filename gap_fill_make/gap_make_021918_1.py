@@ -239,6 +239,14 @@ def create_gap(proc_file_list,proc_filePath_list):
 		else:
 			pass
 
+	# for each filename in file_list_final, construct filePath_list_final
+	
+	for filename in file_list_final:
+		# rel_path = os.path.join(input_folder_dir,filename)
+		# rel_path = os.path.join(user_input_folder,filename) # easier
+		# abs_path = filePath_list_final.append(os.path.abspath(rel_path))
+
+		filePath_list_final.append(os.path.join(user_input_folder,filename)) # even easier, since user should have already provided full absolute path for a folder outside of the current working directory
 
 
 def fix_numbering(proc_file_list,proc_filePath_list,regex):
@@ -282,7 +290,7 @@ def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
 	# print("The file's original label number is:  %i" % file_old_num)
 	print("We want to change the label number %i to the new number %i" % (file_old_num,current_filename_index+1))
 
-	print("The highest label number in the set is:  %i" % highest_label_num)
+	# print("The highest label number in the set is:  %i" % highest_label_num)
 
 	# find the file with number 1
 	# if you can't find it then, cycle through proc_file_list until you do
@@ -384,7 +392,7 @@ def rename_files(old_file_path,new_file_path):
 			else:
 				print("The old file path replaced:  %s" % (item))
 				print("The new file path is:  %s" % (new_file_path[get_item_index]))
-				shutil.move(item,new_file_path[get_item_index])
+				# shutil.move(item,new_file_path[get_item_index])
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
 		print(e)
@@ -405,10 +413,10 @@ def rename_files(old_file_path,new_file_path):
 # Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
 analyze_files(user_input_folder,filename_list,file_path_list)
 # testing
-# print("proc_file_list is:  ")
-# print(proc_file_list)
-# print("proc_filePath_list is:  ")
-# print(proc_filePath_list)
+print("proc_file_list is:  ")
+print(proc_file_list)
+print("proc_filePath_list is:  ")
+print(proc_filePath_list)
 
 create_gap(proc_file_list,proc_filePath_list)
 # testing
