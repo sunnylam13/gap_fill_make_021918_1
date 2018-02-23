@@ -103,7 +103,7 @@ highest_label_num = highest_labelled_number(user_input_folder,prefix_regex2)
 
 
 
-def analyze_files(user_input_folder,filename_list,file_path_list,regex):
+def analyze_files(user_input_folder,filename_list,file_path_list):
 	# generate list of file names and corresponding list of paths to each of those file names that will be altered
 	filename_list = fileTools.scanFile(user_input_folder,file_path_list)
 
@@ -121,9 +121,6 @@ def analyze_files(user_input_folder,filename_list,file_path_list,regex):
 	# because sometimes spam003.txt starts off the list for some reason rather than spam001.txt which screws things up a bit
 	proc_file_list.sort()
 	proc_filePath_list.sort()
-
-	# # start fixing the numbering
-	# fix_numbering(proc_file_list,proc_filePath_list,regex)
 
 def process_file_lists(filename,filename_list,file_path_list,file_current_index):
 	proc_file_list.append(filename) # append the file name into the proc_file_list
@@ -285,7 +282,7 @@ def rename_files(old_file_path,new_file_path):
 #####################################
 
 # analyze the files
-analyze_files(user_input_folder,filename_list,file_path_list,prefix_regex2)
+analyze_files(user_input_folder,filename_list,file_path_list)
 
 # start fixing the numbering
 fix_numbering(proc_file_list,proc_filePath_list,prefix_regex2)

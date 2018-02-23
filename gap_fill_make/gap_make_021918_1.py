@@ -5,11 +5,11 @@
 # File Name Numbering Gap Maker - This program inserts gaps into numbered files so that a new file can be added.
 
 # USAGE
-# python3 gap_fill_make_021918_1.py
+# python3 gap_make_021918_1.py
 
 import os, re, shutil
 import fileFunc021918v1 as fileTools
-import gap_fill_021918_1 as gapFiller
+# import gap_fill_021918_1 as gapFiller
 
 #####################################
 # VARIABLES GENERAL
@@ -96,7 +96,14 @@ user_cmnd_after_regex1 = re.compile(r'''
 
 # you need to analyze the file name itself to find its label number
 
-prefix_and_number_1 = gapFiller.prefix_regex2 # get it from imported file
+# prefix_and_number_1 = gapFiller.prefix_regex2 # get it from imported file
+
+prefix_regex2 = re.compile(r'''
+		(?P<prefixLetters>^[a-z]+) # this is the group for the prefix, assumed to be a-z letters, one or more
+		(?P<leadZeroes>0*) # this is the the group for leading zeros, 0 or more i.e. 00 of 001
+		(?P<numbering>[1-9]*) # this is the group for the numbering
+		(?P<extension>(\..*$)) # this is the extension
+	''', re.VERBOSE)
 
 #####################################
 # END REGEX
@@ -107,7 +114,6 @@ prefix_and_number_1 = gapFiller.prefix_regex2 # get it from imported file
 # FUNCTIONS/METHODS
 #####################################
 
-# Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
 
 def analyze_files(user_input_folder,filename_list,file_path_list):
 	# generate list of file names and corresponding list of paths to each of those file names that will be altered
@@ -128,6 +134,12 @@ def analyze_files(user_input_folder,filename_list,file_path_list):
 	proc_file_list.sort()
 	proc_filePath_list.sort()
 
+	# # start fixing the numbering
+	# fix_numbering(proc_file_list,proc_filePath_list,regex)
+
+def process_file_lists(filename,filename_list,file_path_list,file_current_index):
+	proc_file_list.append(filename) # append the file name into the proc_file_list
+	proc_filePath_list.append(file_path_list[file_current_index]) # append the file path corresponding to the same index position as filename in filename_list
 
 #####################################
 # END FUNCTIONS/METHODS
@@ -139,7 +151,13 @@ def analyze_files(user_input_folder,filename_list,file_path_list):
 # EXECUTION
 #####################################
 
+# Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
 analyze_files(user_input_folder,filename_list,file_path_list)
+# testing
+print("proc_file_list is:  ")
+print(proc_file_list)
+print("proc_filePath_list is:  ")
+print(proc_filePath_list)
 
 #####################################
 # END EXECUTION
