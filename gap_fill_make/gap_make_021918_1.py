@@ -407,7 +407,7 @@ def rename_files(old_file_path,new_file_path):
 				if item == new_file_path[get_item_index]:
 					print("The old file path was not replaced:  %s" % (item))
 					pass
-				elif (item is not new_file_path[get_item_index]) and (get_item_index is not len(old_file_path)):
+				elif (item is not new_file_path[get_item_index]) and (get_item_index is not len(old_file_path)): # if the current file is not in the list of newly minted file paths and is not the last file to be processed
 					# print("The old file path replaced:  %s" % (item))
 					# print("The new file path is:  %s" % (new_file_path[get_item_index]))
 
@@ -427,10 +427,13 @@ def rename_files(old_file_path,new_file_path):
 				# store original filename
 				# create a copy of said original file path
 				prep_copyAhead_for_rename = new_file_path[get_item_index + 1]
+				print("The file prep_copyAhead_for_rename is:  %s" % prep_copyAhead_for_rename)
 
 				# shutil.move(item,new_file_path[get_item_index])
 
 				# place the copy back
+				elif (get_item_index == len(old_file_path)): # if the current file is the last file
+					pass
 			elif user_selected_cmd == "before":
 				pass
 			else:
