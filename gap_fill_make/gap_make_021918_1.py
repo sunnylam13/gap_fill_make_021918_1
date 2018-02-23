@@ -156,11 +156,24 @@ def process_file_lists(filename,filename_list,file_path_list,file_current_index)
 	proc_file_list.append(filename) # append the file name into the proc_file_list
 	proc_filePath_list.append(file_path_list[file_current_index]) # append the file path corresponding to the same index position as filename in filename_list
 
-def create_gap(proc_file_list,proc_filePath_list):
-	# Go to the index position of the number user entered.
+def analyze_command(regex):
 	regex_result = user_cmnd_any_regex1.search(user_number_pos_input) # use regex to analyze the user's input and find the commands and the file number
 	user_selected_cmd = regex_result.group('command')
 	user_selected_num = int(regex_result.group('number')) # store the user selected number and convert to integer
+
+	return (regex_result,user_selected_cmd,user_selected_num)
+
+def create_gap(proc_file_list,proc_filePath_list):
+	# Go to the index position of the number user entered.
+	# regex_result = user_cmnd_any_regex1.search(user_number_pos_input) # use regex to analyze the user's input and find the commands and the file number
+	# user_selected_cmd = regex_result.group('command')
+	# user_selected_num = int(regex_result.group('number')) # store the user selected number and convert to integer
+
+	regex_result,user_selected_cmd,user_selected_num = analyze_command(user_number_pos_input)
+	# print(regex_result)
+	# print(user_selected_cmd)
+	# print(user_selected_num)
+
 	convert_user_num_to_index_pos = user_selected_num - 1 # since index positions start at 0 and not 1, to find that numbered file's index position subtract 1... NOTE:  this assumes that there are no other gaps in numbering that are there or that don't matter, if not, you may way to run the gap filler program first and then run this program
 	
 	if user_selected_cmd == "before":
@@ -377,8 +390,11 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,file_ol
 		pass
 
 def rename_files(old_file_path,new_file_path):
+	# old_file_path and new_file_path are lists of paths not a single path
 	# use shutil.move to rename the file
 	# shutil.move(old_path,new_path)
+
+	regex_result,user_selected_cmd,user_selected_num = analyze_command(user_number_pos_input)
 
 	try:
 		for item in old_file_path:
@@ -388,10 +404,34 @@ def rename_files(old_file_path,new_file_path):
 			if item == new_file_path[get_item_index]:
 				print("The old file path was not replaced:  %s" % (item))
 				pass
-			else:
-				print("The old file path replaced:  %s" % (item))
-				print("The new file path is:  %s" % (new_file_path[get_item_index]))
-				shutil.move(item,new_file_path[get_item_index])
+			elif (item is not new_file_path[get_item_index]) and (get_item_index is not len(old_file_path)):
+				# print("The old file path replaced:  %s" % (item))
+				# print("The new file path is:  %s" % (new_file_path[get_item_index]))
+
+				# # the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
+				# # store original filename
+				# # create a copy of said original file path
+				# prep_copy_for_rename = old_file_path[get_item_index + 1]
+
+				# # shutil.move(item,new_file_path[get_item_index])
+
+				# # place the copy back
+				
+				if user_selected_cmd == "after":
+					print("The old file path replaced:  %s" % (item))
+					print("The new file path is:  %s" % (new_file_path[get_item_index]))
+
+					# the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
+					# store original filename
+					# create a copy of said original file path
+					prep_copyAhead_for_rename = new_file_path[get_item_index + 1]
+
+					# shutil.move(item,new_file_path[get_item_index])
+
+					# place the copy back
+				elif user_selected_cmd == "before":
+					pass
+
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
 		print(e)
