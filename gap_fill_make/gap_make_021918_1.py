@@ -56,7 +56,21 @@ user_number_pos_input = "before 1" # assign this so you don't have to enter a us
 # REGEX
 #####################################
 
+# find out whether the user commanded "before/after" "#" using regex
 
+# https://regexr.com/3l8tl
+user_cmnd_before_regex1 = re.compile(r'''
+		(?P<command>before) # this is the before command given by user
+		(?P<space>\s) # this is the space between command and the file number user wants to insert before
+		(?P<number>\d+) # this is the file number
+	''', re.VERBOSE)
+
+# https://regexr.com/3l8tu
+user_cmnd_after_regex1 = re.compile(r'''
+		(?P<command>after) # this is the after command given by user
+		(?P<space>\s) # this is the space between command and the file number user wants to insert before
+		(?P<number>\d+) # this is the file number
+	''', re.VERBOSE)
 
 #####################################
 # END REGEX
