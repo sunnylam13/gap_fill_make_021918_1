@@ -208,4 +208,41 @@ hmm...
 
 	target_matches = filter(lambda x: filename in x, proc_file_list) # search for proc_file_list[current_filename_index] value, this is a list, convert to string for use
 
+## Friday, February 23, 2018 9:56 AM
+
+Gap Maker Program
+
+Actions
+
+Get the user input folder with list of numbered files.
+
+Get the user input on where they want to insert the gap.
+
+Will it be between 1 and 2 or 5 and 6?
+
+Best way is to ask for the number they would like to insert it after.  Technically this covers all situations more easily then "before #" because you can't do "before #" if you want to insert anything after the "last number" however you can always insert after.
+
+Unless the user wants to insert a number before 1 (first file) to create a new first file.
+
+This means we'll need to take the input of "insert before" or "insert after" or create a choice menu for those options plus ask the user for the file they wish to insert before/after.
+
+You could make this a one line input if you write regex to find "insert before" and "insert after" and the number and use regex groups so you can analyze each part for internal logic.
+
+Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
+
+Get the directory path for the folder to create file paths for the original list of numbered files.
+
+Create file paths for the original list of numbered files.  Store all the file paths in the original file path list.
+
+Go to the index position of the number user entered.
+
+If they used "insert before", change the original file name at the position and every file after by increasing it's label number by +1.  Append/store the change in the new file name list.
+
+If they used "insert after", don't change the original file name at the position.  Instead change every file after by increasing its label number by +1. Append/store the change in the new file name list.
+
+NOTE:  in no case should the index position ever change only the filename number label.
+
+Now change the names of the original file path list to that of the new file path list.  Store all the file paths in the new file path list.
+
+Using the new file name list, create file paths for the new list of numbered files.  Use shutil.move() to change the files specified by the file paths from the original to the new.
 
