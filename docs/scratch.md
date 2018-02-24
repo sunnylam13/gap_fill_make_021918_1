@@ -294,4 +294,6 @@ Since `(\..*)` gets the entire ending plus -clone
 
 You'll have to use regex sub to remove it manually.
 
+> changed to (?P<numbering>[1-90]*) because if you don't add 0, then 0015 works however 001500 fails
+
 
