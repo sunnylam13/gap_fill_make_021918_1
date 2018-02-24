@@ -420,14 +420,16 @@ def rename_files(old_filenames,new_filenames,old_file_path,new_file_path):
 
 				if item == new_file_path[get_item_index]:
 					print("The old file path was not replaced:  %s" % (item))
-					clone_filename_list.append(new_filenames[get_item_index] + "-clone")
-					clone_path_list.append(new_file_path[get_item_index] + "-clone")
-					print("The file clone name is:  %s\n" % (new_filenames[get_item_index] + "-clone"))
-					print("The file clone_path is:  %s\n" % (new_file_path[get_item_index] + "-clone"))
+
+					# do not add "-clone" to these ones
+					clone_filename_list.append(new_filenames[get_item_index])
+					clone_path_list.append(new_file_path[get_item_index])
+					print("The file clone name is:  %s\n" % (new_filenames[get_item_index]))
+					print("The file clone_path is:  %s\n" % (new_file_path[get_item_index]))
 					pass
 				elif (item is not new_file_path[get_item_index]) and (get_item_index is not len(old_file_path)): # if the current file is not in the list of newly minted file paths and is not the last file to be processed
-					# print("The old file path replaced:  %s" % (item))
-					# print("The new file path is:  %s" % (new_file_path[get_item_index]))
+					print("The old file path replaced:  %s" % (item))
+					print("The new file path is:  %s" % (new_file_path[get_item_index]))
 
 					# # the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
 					# # store original filename
@@ -439,30 +441,34 @@ def rename_files(old_filenames,new_filenames,old_file_path,new_file_path):
 					# # place the copy back
 
 
-
+					# add "-clone" to these ones
 					# the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
 					# create a copy of said original file name and file path
-					clone_filename_list.append(new_filenames[get_item_index + 1] + "-clone")
-					clone_path_list.append(new_file_path[get_item_index + 1] + "-clone")
-					print("The file clone name is:  %s\n" % (new_filenames[get_item_index + 1] + "-clone"))
-					print("The file clone_path is:  %s\n" % ((new_file_path[get_item_index + 1] + "-clone")) )
-
-					# now rename the file to the number that's one ahead i.e. 006 becomes 007-copy
-					# shutil.move(item,new_file_path[get_item_index])
-					# shutil.move(clone_path,new_file_path[get_item_index])
-
-					# this means that by this point all the files you've now renamed are "xxxx.ext-clone"
-					# now you want to remove the "-clone" part
 					
-					# get the list of files in the folder, create another list of file paths to cycle through
-					new_fileName_list, new_filePath_list = []
-					new_filePath_list = fileTools.scanFile(user_input_folder,new_fileName_list) # since the function returns new_fileName_list
+					clone_filename_list.append(new_filenames[get_item_index] + "-clone")
+					clone_path_list.append(new_file_path[get_item_index] + "-clone")
 
-					for item in new_fileName_list:
-						pass
+					# clone_filename_list.append(new_filenames[get_item_index] + "-clone")
+					# clone_path_list.append(new_file_path[get_item_index] + "-clone")
+					print("The file clone name is:  %s\n" % (new_filenames[get_item_index] + "-clone"))
+					print("The file clone_path is:  %s\n" % ((new_file_path[get_item_index] + "-clone")) )
 
-					print("The old file path replaced:  %s" % (item))
-					print("The new file path is:  %s" % (new_file_path[get_item_index]))
+					# # now rename the file to the number that's one ahead i.e. 006 becomes 007-copy
+					# # shutil.move(item,new_file_path[get_item_index])
+					# # shutil.move(clone_path,new_file_path[get_item_index])
+
+					# # this means that by this point all the files you've now renamed are "xxxx.ext-clone"
+					# # now you want to remove the "-clone" part
+					
+					# # get the list of files in the folder, create another list of file paths to cycle through
+					# new_fileName_list, new_filePath_list = []
+					# new_filePath_list = fileTools.scanFile(user_input_folder,new_fileName_list) # since the function returns new_fileName_list
+
+					# for item in new_fileName_list:
+					# 	pass
+
+					# print("The old file path replaced:  %s" % (item))
+					# print("The new file path is:  %s" % (new_file_path[get_item_index]))
 
 				elif (get_item_index == len(old_file_path)): # if the current file is the last file
 					pass
