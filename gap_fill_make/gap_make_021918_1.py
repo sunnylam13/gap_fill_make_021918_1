@@ -76,6 +76,9 @@ file_list_final = []
 # the final list of all new file paths (what the final copying should be)
 filePath_list_final = []
 
+clone_filename_list = [] # you will analyze this list to find the names with "-clone"
+clone_path_list = [] # you will use the modifications based on clone_filename_list to generate non "-clone" links
+
 #####################################
 # END VARIABLES GENERAL
 #####################################
@@ -123,7 +126,7 @@ prefix_regex2 = re.compile(r'''
 
 
 # need regex search that finds files you've now renamed "xxxx.ext-clone"
-# assumes you're working with ../docs/testFolder2/spam007.txt
+# assumes you're working with ../docs/testFolder2/spam007.txt-clone
 clone_regex1 = re.compile(r'''
 		(?P<prefixLetters>^[a-z]+) # this is the group for the prefix, assumed to be a-z letters, one or more
 		(?P<leadZeroes>0*) # this is the the group for leading zeros, 0 or more i.e. 00 of 001
@@ -273,138 +276,9 @@ def create_gap(proc_file_list,proc_filePath_list):
 
 		filePath_list_final.append(os.path.join(user_input_folder,filename)) # even easier, since user should have already provided full absolute path for a folder outside of the current working directory
 
-def fix_numbering(proc_file_list,proc_filePath_list,regex):
-	# rename all later files after a gap is discovered so numbering is in sync
-	# change the filename using regex substitution
-	# then find its corresponding position on the file_path_list
-	# use the new filename after substitution to do another regex sub to change its name entry in its file path in the file_path_list 
-	
-
-
-	for filename in proc_file_list:
-		print("Filename to be analyzed is:  %s" % (filename))
-		# analyze_filename = regex.search(filename)
-		# current_filename_index = proc_file_list.index(filename)
-		
-		setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex) # should assign it in the order of the returned values from the function
-
-	# testing
-	# print("The proc_file_list is:\n")
-	# print(proc_file_list) # testing
-	# print("The length of proc_file_list is:  %i" % len(proc_file_list))
-	# print("\n")
-	# print("The proc_filePath_list is:\n")
-	# print(proc_filePath_list) # testing
-	# print("The length of proc_filePath_list is:  %i" % len(proc_filePath_list))
-	# print("\n")
-	# print("The file_list_final is:\n")
-	# print(file_list_final) # testing
-	# print("The length of file_list_final is:  %i" % len(file_list_final))
-	# print("\n")
-	# print("The filePath_list_final is:\n")
-	# print(filePath_list_final) # testing
-	# print("The length of filePath_list_final is:  %i" % len(filePath_list_final))
-	# print("\n")
-
-def setup_src_dst_paths(filename,proc_file_list,proc_filePath_list,regex):
-	regex_result = regex.search(filename) # aka. regex_result
-	current_filename_index = proc_file_list.index(filename)
-	# print("The current filename index position is:  %i" % current_filename_index)
-	file_old_num = int(regex_result.group('numbering'))
-	# print("The file's original label number is:  %i" % file_old_num)
-	print("We want to change the label number %i to the new number %i" % (file_old_num,current_filename_index+1))
-
-	# print("The highest label number in the set is:  %i" % highest_label_num)
-
-	# find the file with number 1
-	# if you can't find it then, cycle through proc_file_list until you do
-	# if you find it add it to the file_list_final,filePath_list_final
-	# if you still can't find it, grab the file in the index + 1 position or the next file on the list and change it to be 1
-	# rinse and repeat
-
-	try:
-		
-		# where we want to start our search with 1 (meaning x + 1)
-		target_num = current_filename_index + 1
-
-		if file_old_num == target_num: # if the file's number matches the number it should be
-			file_list_final.append(filename)
-			filePath_list_final.append(proc_filePath_list[current_filename_index])
-			print("\n")
-			# print(file_list_final)
-			# print(filePath_list_final)
-		elif (file_old_num is not target_num) and (file_old_num is not highest_label_num):  # if the file's number does not match the number and is not the last number
-			# if you still can't find it, grab the file in the index + y position or the next file on the list and change it to be y
-			# print("(file_old_num is not target_num) and (file_old_num is not highest_label_num) works")
-			fileNum_changer(filename,current_filename_index,proc_file_list,regex,file_old_num)
-		else:
-			pass
-
-		if file_old_num == highest_label_num:
-			# use len(proc_file_list) to get the last number that the last file should have not true_max_num...
-			print("`file_old_num == highest_label_num` works")
-			fileNum_changer(filename,current_filename_index,proc_file_list,regex,file_old_num,true_max_num) # can't use current_filename_index + 1 here or it goes out of range, can do it within fileNum_changer
-	except Exception as e:
-		print("There's an error in your setup_src_dst_paths function:  ")
-		print(e)
-		print("\n\n")
-	else:
-		pass
-
-def fileNum_changer(filename,current_filename_index,proc_file_list,regex,file_old_num,max_num=0):
-	# helper function for setup_src_dst_paths()
-	
-	print("The current_filename_index is: %i" % current_filename_index)
-
-	if max_num > 0:
-		# if new_num argument is passed skip this logic code
-		# print(new_num)
-		new_num = max_num
-		print("If this is the last file, new_num index is:  %i" % new_num)
-	else:
-		# otherwise give new_num a value
-		new_num = current_filename_index+1
-		print("The non-last file new_num target number is %i" % new_num)
-	
-
-	try:
-
-		# change the filename's file_old_num to the new_number
-		# store it in altered_fileName
-
-		regex_result = regex.search(filename) # aka. regex_result
-		# change that target_fileName to the new number (new_num) creating altered_fileName
-		altered_fileName = regex_result.group('prefixLetters') + regex_result.group('leadZeroes') + str(new_num) + regex_result.group('extension')
-		# append that altered_fileName to file_list_final
-		file_list_final.append(altered_fileName)
-		print("The altered_fileName is:  %s\n" % altered_fileName)
-
-		# create a new path for that altered_fileName in filePath_list_final
-		
-		old_path = proc_filePath_list[current_filename_index]
-		# print("The old path is:  %s" % (old_path)) # testing
-		
-		# get the dir path to the original filename from proc_filePath_list
-		dirPath = os.path.dirname(old_path)
-		# print("The directory path is:  %s" % (dirPath)) # testing
-
-		# using the altered_fileName and dirPath, create a new path target for re-naming
-		new_path = os.path.join(dirPath,altered_fileName)
-		# print("The new path is:  %s" % (new_path)) # testing
-
-		# push the new file path into the filePath_list_final
-		filePath_list_final.append(new_path)
-	except Exception as e:
-		print("There is an error in fileNum_changer function:  ")
-		print(e)
-		print("\n\n")
-	else:
-		pass
 
 def shadow_lists_generation(old_filenames,new_filenames,old_file_path,new_file_path):
 	regex_result,user_selected_cmd,user_selected_num = analyze_command(user_number_pos_input)
-	clone_filename_list = [] # you will analyze this list to find the names with "-clone"
-	clone_path_list = [] # you will use the modifications based on clone_filename_list to generate non "-clone" links
 
 	try:
 		for item in old_file_path:
@@ -441,7 +315,7 @@ def shadow_lists_generation(old_filenames,new_filenames,old_file_path,new_file_p
 			else:
 				print("Error - user did not provide a command!")
 
-		strip_clone_designation(clone_filename_list,clone_path_list)
+		
 
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
@@ -451,13 +325,39 @@ def shadow_lists_generation(old_filenames,new_filenames,old_file_path,new_file_p
 		pass
 
 def strip_clone_designation(clone_filename_list,clone_path_list):
+	# print("clone_filename_list:  ")
+	# print(clone_filename_list)
+	# print("clone_path_list:  ")
+	# print(clone_path_list)
+
+	regex_filename_analysis = prefix_regex2.search(proc_file_list[0])
+	# use regex substitution of sorts to create new name
+	# print("The regex is:  ")
+	# print(regex_filename_analysis)
+	# print(regex_filename_analysis.group('prefixLetters'))
+	# print(regex_filename_analysis.group('leadZeroes'))
+	# print(str(convert_user_num_to_index_pos + 1))
+	# print(regex_filename_analysis.group('extension'))
+	original_ending_is = regex_filename_analysis.group("extension")
+	print("original_ending_is %s" % original_ending_is)
+
+	for filename in clone_filename_list:
+		filename_index_num = clone_filename_list.index(filename)
+		# create regex object of filename
+		clone_result = clone_regex1.search(filename)
+		file_ending_is = clone_result.group("extension") # i.e. .txt-clone, .jpg-clone, if it already doesn't have it, well it won't matter then...
+
+		# replace file ending of .extension-clone with .extension (original extension)
+		clone_filename_list[filename_index_num] = clone_result.group('prefixLetters') + clone_result.group('leadZeroes') + clone_result.group('numbering') + clone_regex1.sub(original_ending_is,filename) # you can't just use re.sub, you have to construct the string using re.sub result as part of it
+
+		# now replace corresponding value in clone_path_list with joined values of the directory path and this fixed name
+		new_path = os.path.join(user_input_folder,clone_filename_list[filename_index_num])
+		clone_path_list[filename_index_num] = new_path
+
 	print("clone_filename_list:  ")
 	print(clone_filename_list)
 	print("clone_path_list:  ")
 	print(clone_path_list)
-
-	for filename in clone_filename_list:
-		pass
 
 def rename_files(old_file_path,new_file_path):
 	# use shutil.move to rename the file
@@ -509,9 +409,11 @@ print(filePath_list_final)
 
 shadow_lists_generation(proc_file_list,file_list_final,proc_filePath_list,filePath_list_final)
 
+strip_clone_designation(clone_filename_list,clone_path_list)
+
 # original and new file names and paths have been generated
 # all that remains is to execute the change
-# rename_files(proc_file_list,file_list_final,proc_filePath_list,filePath_list_final)
+rename_files(proc_filePath_list,filePath_list_final)
 
 #####################################
 # END EXECUTION
