@@ -272,3 +272,26 @@ Now change the names of the original file path list to that of the new file path
 
 Using the new file name list, create file paths for the new list of numbered files.  Use shutil.move() to change the files specified by the file paths from the original to the new.
 
+## Friday, February 23, 2018 7:59 PM
+
+To create a regex object for:  
+
+`spam007.txt-clone`
+
+"spam00150.txt-clone"
+
+spam20278378378.txt-clone
+
+https://regexr.com/3l9jd
+
+	(^[a-z]+)(0*)([1-90]*)(\..*)(-)(clone)
+
+or
+
+	(^[a-z]+)(0*)([1-90]*)(\..*)
+
+Since `(\..*)` gets the entire ending plus -clone
+
+You'll have to use regex sub to remove it manually.
+
+

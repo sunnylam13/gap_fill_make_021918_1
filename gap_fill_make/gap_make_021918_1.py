@@ -117,7 +117,7 @@ user_cmnd_any_regex1 = re.compile(r'''
 prefix_regex2 = re.compile(r'''
 		(?P<prefixLetters>^[a-z]+) # this is the group for the prefix, assumed to be a-z letters, one or more
 		(?P<leadZeroes>0*) # this is the the group for leading zeros, 0 or more i.e. 00 of 001
-		(?P<numbering>[1-9]*) # this is the group for the numbering
+		(?P<numbering>[1-90]*) # this is the group for the numbering
 		(?P<extension>(\..*$)) # this is the extension
 	''', re.VERBOSE)
 
@@ -127,7 +127,7 @@ prefix_regex2 = re.compile(r'''
 clone_regex1 = re.compile(r'''
 		(?P<prefixLetters>^[a-z]+) # this is the group for the prefix, assumed to be a-z letters, one or more
 		(?P<leadZeroes>0*) # this is the the group for leading zeros, 0 or more i.e. 00 of 001
-		(?P<numbering>[1-9]*) # this is the group for the numbering
+		(?P<numbering>[1-90]*) # this is the group for the numbering
 		(?P<extension>(\..*$)) # this is the extension
 	''', re.VERBOSE)
 
@@ -401,14 +401,10 @@ def fileNum_changer(filename,current_filename_index,proc_file_list,regex,file_ol
 	else:
 		pass
 
-def rename_files(old_filenames,new_filenames,old_file_path,new_file_path):
-	# old_file_path and new_file_path are lists of paths not a single path
-	# use shutil.move to rename the file
-	# shutil.move(old_path,new_path)
-
+def shadow_lists_generation(old_filenames,new_filenames,old_file_path,new_file_path):
 	regex_result,user_selected_cmd,user_selected_num = analyze_command(user_number_pos_input)
-	clone_filename_list = []
-	clone_path_list = []
+	clone_filename_list = [] # you will analyze this list to find the names with "-clone"
+	clone_path_list = [] # you will use the modifications based on clone_filename_list to generate non "-clone" links
 
 	try:
 		for item in old_file_path:
@@ -428,55 +424,57 @@ def rename_files(old_filenames,new_filenames,old_file_path,new_file_path):
 					print("The file clone_path is:  %s\n" % (new_file_path[get_item_index]))
 					pass
 				elif (item is not new_file_path[get_item_index]) and (get_item_index is not len(old_file_path)): # if the current file is not in the list of newly minted file paths and is not the last file to be processed
-					print("The old file path replaced:  %s" % (item))
+
+					print("The old file path was:  %s" % (item))
 					print("The new file path is:  %s" % (new_file_path[get_item_index]))
-
-					# # the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
-					# # store original filename
-					# # create a copy of said original file path
-					# prep_copy_for_rename = old_file_path[get_item_index + 1]
-
-					# # shutil.move(item,new_file_path[get_item_index])
-
-					# # place the copy back
-
-
-					# add "-clone" to these ones
-					# the filename ahead already exists, the one before being renamed to match it overwrites leaving you with a gap
-					# create a copy of said original file name and file path
 					
 					clone_filename_list.append(new_filenames[get_item_index] + "-clone")
 					clone_path_list.append(new_file_path[get_item_index] + "-clone")
 
-					# clone_filename_list.append(new_filenames[get_item_index] + "-clone")
-					# clone_path_list.append(new_file_path[get_item_index] + "-clone")
 					print("The file clone name is:  %s\n" % (new_filenames[get_item_index] + "-clone"))
 					print("The file clone_path is:  %s\n" % ((new_file_path[get_item_index] + "-clone")) )
 
-					# # now rename the file to the number that's one ahead i.e. 006 becomes 007-copy
-					# # shutil.move(item,new_file_path[get_item_index])
-					# # shutil.move(clone_path,new_file_path[get_item_index])
-
-					# # this means that by this point all the files you've now renamed are "xxxx.ext-clone"
-					# # now you want to remove the "-clone" part
-					
-					# # get the list of files in the folder, create another list of file paths to cycle through
-					# new_fileName_list, new_filePath_list = []
-					# new_filePath_list = fileTools.scanFile(user_input_folder,new_fileName_list) # since the function returns new_fileName_list
-
-					# for item in new_fileName_list:
-					# 	pass
-
-					# print("The old file path replaced:  %s" % (item))
-					# print("The new file path is:  %s" % (new_file_path[get_item_index]))
-
 				elif (get_item_index == len(old_file_path)): # if the current file is the last file
 					pass
-			elif user_selected_cmd == "before":
+			elif user_selected_cmd == "before": # TODO
 				pass
 			else:
 				print("Error - user did not provide a command!")
 
+		strip_clone_designation(clone_filename_list,clone_path_list)
+
+	except Exception as e:
+		print("There is an error in rename_files function.  The error is:  ")
+		print(e)
+		print("\n\n")
+	else:
+		pass
+
+def strip_clone_designation(clone_filename_list,clone_path_list):
+	print("clone_filename_list:  ")
+	print(clone_filename_list)
+	print("clone_path_list:  ")
+	print(clone_path_list)
+
+	for filename in clone_filename_list:
+		pass
+
+def rename_files(old_file_path,new_file_path):
+	# use shutil.move to rename the file
+	# shutil.move(old_path,new_path)
+
+	try:
+		for item in old_file_path:
+		# item is the old file path
+			get_item_index = old_file_path.index(item)
+			
+			if item == new_file_path[get_item_index]:
+				print("The old file path was not replaced:  %s" % (item))
+				pass
+			else:
+				print("The old file path replaced:  %s" % (item))
+				print("The new file path is:  %s" % (new_file_path[get_item_index]))
+				shutil.move(item,new_file_path[get_item_index])
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
 		print(e)
@@ -509,9 +507,11 @@ print(file_list_final)
 print("filePath_list_final is:  ")
 print(filePath_list_final)
 
+shadow_lists_generation(proc_file_list,file_list_final,proc_filePath_list,filePath_list_final)
+
 # original and new file names and paths have been generated
-	# all that remains is to execute the change
-rename_files(proc_file_list,file_list_final,proc_filePath_list,filePath_list_final)
+# all that remains is to execute the change
+# rename_files(proc_file_list,file_list_final,proc_filePath_list,filePath_list_final)
 
 #####################################
 # END EXECUTION

@@ -34,7 +34,7 @@ user_input_folder = "../docs/testFolder1" # assign the folder to the input varia
 prefix_regex2 = re.compile(r'''
 		(?P<prefixLetters>^[a-z]+) # this is the group for the prefix, assumed to be a-z letters, one or more
 		(?P<leadZeroes>0*) # this is the the group for leading zeros, 0 or more i.e. 00 of 001
-		(?P<numbering>[1-9]*) # this is the group for the numbering
+		(?P<numbering>[1-90]*) # this is the group for the numbering
 		(?P<extension>(\..*$)) # this is the extension
 	''', re.VERBOSE)
 
