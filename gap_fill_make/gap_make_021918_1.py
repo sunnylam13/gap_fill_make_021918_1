@@ -76,8 +76,8 @@ file_list_final = []
 # the final list of all new file paths (what the final copying should be)
 filePath_list_final = []
 
-clone_filename_list = [] # you will analyze this list to find the names with "-clone"
-clone_path_list = [] # you will use the modifications based on clone_filename_list to generate non "-clone" links
+shadow_filename_list = [] # you will analyze this list to find the names with "-clone"
+shadow_filepath_list = [] # you will use the modifications based on clone_filename_list to generate non "-clone" links
 
 #####################################
 # END VARIABLES GENERAL
@@ -257,11 +257,14 @@ def create_gap(proc_file_list,proc_filePath_list):
 				# use (x+2) because (x + 1) would only give us back the current file index
 				# altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension')
 				# variation 1
-				altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension') + "_copy"
+				altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension') + "_copy" # the temporary file name to use to avoid error
+				shadow_altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension') # the file name as it should be, for the final naming phase
 				
 				# append that altered_fileName to file_list_final
 				file_list_final.append(altered_fileName)
 				print("The altered_fileName is:  %s\n" % altered_fileName)
+
+				shadow_filepath_list.append(shadow_altered_fileName)
 		except Exception as e:
 			print("There is an error in creating a gap after file number %i" % user_selected_num)
 			print("The error is:  ")
@@ -281,15 +284,31 @@ def create_gap(proc_file_list,proc_filePath_list):
 
 def strip_copy_tag(file_list_final):
 
+	# print("strip_copy_tag --> file_list_final")
+	# print(file_list_final)
+
 	copytag_stripped_filenames = []
 	copytag_stripped_filePaths = []
 
 	# generate "_copy" stripped filenames
 
+	# for filename in file_list_final:
+	# 	print(filename)
+	# 	regex_filename_analysis = prefix_regex2.search(filename)
+	# 	print(regex_filename_analysis)
+
 	for filename in file_list_final:
 		file_current_index = file_list_final.index(filename)
-		regex_filename_analysis = prefix_regex2.search(file_list_final[file_current_index])
-		if regex_filename_analysis.group('extension') == regex_filename_analysis.group('extension') + "_copy": # if the extension is string .ext_copy (rather than just .ext)
+		print(file_current_index)
+		regex_filename_analysis = prefix_regex2.search(filename)
+		# print("The regex is:  ")
+		# print(regex_filename_analysis)
+		# print(regex_filename_analysis.group('prefixLetters'))
+		# print(regex_filename_analysis.group('leadZeroes'))
+		# print(regex_filename_analysis.group('numbering'))
+		# print(regex_filename_analysis.group('extension'))		
+
+		if regex_filename_analysis.group('extension') == (regex_filename_analysis.group('extension') + "_copy"): # if the extension is string .ext_copy (rather than just .ext)
 			altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + regex_filename_analysis.group('numbering') + regex_filename_analysis.group('extension')
 			copytag_stripped_filenames.append(altered_fileName)
 			# generate new file paths based on "_copy" stripped filenames
@@ -300,9 +319,15 @@ def strip_copy_tag(file_list_final):
 			# re-add the file path to file path list
 			copytag_stripped_filePaths.append(os.path.join(user_input_folder,filename))
 
+	print("copytag_stripped_filenames")
+	print(copytag_stripped_filenames)
+	print("copytag_stripped_filePaths")
+	print(copytag_stripped_filePaths)
+
 	# once that's done there should be "_copy" stripped file names and file paths
 	# re-name the files in the directory
-	rename_files(file_list_final,copytag_stripped_filePaths)
+	# enable/disable for testing
+	# rename_files(file_list_final,copytag_stripped_filePaths)
 
 def rename_files(old_file_path,new_file_path):
 	# use shutil.move to rename the file
@@ -357,7 +382,7 @@ print(filePath_list_final)
 rename_files(proc_filePath_list,filePath_list_final)
 
 # strip the "_copy" tags
-strip_copy_tag(filePath_list_final)
+strip_copy_tag(file_list_final)
 
 #####################################
 # END EXECUTION
