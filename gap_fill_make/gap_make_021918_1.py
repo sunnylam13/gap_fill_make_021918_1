@@ -216,6 +216,7 @@ def create_gap(proc_file_list,proc_filePath_list):
 			# Go to the index position of the number user entered.
 			# start a loop here that changes current index position file name and all file names after by 1
 			for x in range(convert_user_num_to_index_pos,len(proc_file_list)): # loop from user chosen file name to the end of the list
+				
 				# testing
 				print("The file analyzed is:  %s" % proc_file_list[x])
 				
