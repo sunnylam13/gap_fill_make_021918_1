@@ -54,7 +54,11 @@ true_max_num = len(os.listdir(user_input_folder)) # actual upper limit of number
 # testing
 # assign this so you don't have to enter a user prompt
 # user_number_pos_input = "before 1" 
-user_number_pos_input = "after 5"
+# user_number_pos_input = "before 3" 
+# user_number_pos_input = "before 5"
+# user_number_pos_input = "after 5"
+# user_number_pos_input = "after 3"
+user_number_pos_input = "after 2"
 
 abs_cwd_path = fileTools.abs_cwd_file_path # set the destination file path to be the current working directory or cwd
 
@@ -189,12 +193,17 @@ def create_gap(proc_file_list,proc_filePath_list):
 	# print(user_selected_cmd)
 	# print(user_selected_num)
 
-	convert_user_num_to_index_pos = user_selected_num - 1 # since index positions start at 0 and not 1, to find that numbered file's index position subtract 1... NOTE:  this assumes that there are no other gaps in numbering that are there or that don't matter, if not, you may way to run the gap filler program first and then run this program
+	# convert_user_num_to_index_pos = user_selected_num - 2 # since index positions start at 0 and not 1, to find that numbered file's index position subtract 1... NOTE:  this assumes that there are no other gaps in numbering that are there or that don't matter, if not, you may way to run the gap filler program first and then run this program
+	# # NOTE:  if you use "user_selected_num - 1" and you were doing "before 3" then file 3 is also eliminated turning "it" into the gap rather than eliminating file 2 which is where you want the gap
 	
 	if user_selected_cmd == "before":
+		convert_user_num_to_index_pos = user_selected_num - 2 
+		# NOTE:  if you use "user_selected_num - 1" and you were doing "before 3" then file 3 is also eliminated turning "it" into the gap rather than eliminating file 2 which is where you want the gap
+		
 		# If they used "insert before", change the original file name at the position and every file after by increasing it's label number by +1.  Append/store the change in the new file name list.
 		try:
 			# add all of the files before the user selected file that remain unchanged
+			# i.e. if before 3, then index position is 1...  which means x = 0 position (which are 001), file 001 is the same, file 002 becomes 003, 003 becomes 004 and so on because range(0,1) means that only 0 is unchanged, you never count the last number of the range
 			for x in range(0,convert_user_num_to_index_pos):
 				# append that altered_fileName to file_list_final
 				file_list_final.append(proc_file_list[x])
@@ -238,9 +247,16 @@ def create_gap(proc_file_list,proc_filePath_list):
 		else:
 			pass
 	elif user_selected_cmd == "after":
+		convert_user_num_to_index_pos = user_selected_num - 1 # since index positions start at 0 and not 1, to find that numbered file's index position subtract 1... 
+		# means that if user selects "after 5" then index position is 4
+		# NOTE:  this assumes that there are no other gaps in numbering that are there or that don't matter, if not, you may way to run the gap filler program first and then run this program
+		# I've found that using user_selected_num - 2 in the after case eliminates the user's chosen file start point, say "after 3", then 3 is also deleted
+
 		# If they used "insert after", don't change the original file name at the position.  Instead change every file after by increasing its label number by +1. Append/store the change in the new file name list.
 		try:
 			# add all of the files before the user selected file that remain unchanged
+			# this includes the user's starting point file (hence convert_user_num_to_index_pos + 1) i.e. if "after 5" then index 4, and user number is 5, however we want to change the number 1 step past 5, so file 006
+			# this means all files 001 to 005 remain unchanged (index positions 0 to 4)
 			for x in range(0,convert_user_num_to_index_pos + 1):
 				# append that altered_fileName to file_list_final
 				file_list_final.append(proc_file_list[x])
@@ -250,6 +266,8 @@ def create_gap(proc_file_list,proc_filePath_list):
 				# this solves the index out of range error later on with strip_copy_tag()
 				shadow_filename_list.append(proc_file_list[x])
 
+			# now change all the files after user's starting point
+			# i.e. if "after 5" then files 006 onwards are changed, which means index position 5 and onwards (since 005 is index 4)
 			for x in range(convert_user_num_to_index_pos + 1,len(proc_file_list)): # loop from user chosen file name to the end of the list
 				# testing
 				print("The file analyzed is:  %s" % proc_file_list[x])
