@@ -264,7 +264,7 @@ def create_gap(proc_file_list,proc_filePath_list):
 				file_list_final.append(altered_fileName)
 				print("The altered_fileName is:  %s\n" % altered_fileName)
 
-				shadow_filepath_list.append(shadow_altered_fileName)
+				shadow_filename_list.append(shadow_altered_fileName)
 		except Exception as e:
 			print("There is an error in creating a gap after file number %i" % user_selected_num)
 			print("The error is:  ")
@@ -281,14 +281,17 @@ def create_gap(proc_file_list,proc_filePath_list):
 
 		filePath_list_final.append(os.path.join(user_input_folder,filename)) # even easier, since user should have already provided full absolute path for a folder outside of the current working directory
 
+	for filename in shadow_filename_list:
+		shadow_filepath_list.append(os.path.join(user_input_folder,filename)) # even easier, since user should have already provided full absolute path for a folder outside of the current working directory
 
-def strip_copy_tag(file_list_final):
+
+def strip_copy_tag(filePath_list_final):
 
 	# print("strip_copy_tag --> file_list_final")
 	# print(file_list_final)
 
-	copytag_stripped_filenames = []
-	copytag_stripped_filePaths = []
+	# copytag_stripped_filenames = []
+	# copytag_stripped_filePaths = []
 
 	# generate "_copy" stripped filenames
 
@@ -297,54 +300,88 @@ def strip_copy_tag(file_list_final):
 	# 	regex_filename_analysis = prefix_regex2.search(filename)
 	# 	print(regex_filename_analysis)
 
-	for filename in file_list_final:
-		file_current_index = file_list_final.index(filename)
-		print(file_current_index)
-		regex_filename_analysis = prefix_regex2.search(filename)
-		# print("The regex is:  ")
-		# print(regex_filename_analysis)
-		# print(regex_filename_analysis.group('prefixLetters'))
-		# print(regex_filename_analysis.group('leadZeroes'))
-		# print(regex_filename_analysis.group('numbering'))
-		# print(regex_filename_analysis.group('extension'))		
+	# for filename in file_list_final:
+	# 	file_current_index = file_list_final.index(filename)
+	# 	print(file_current_index)
+	# 	regex_filename_analysis = prefix_regex2.search(filename)
+	# 	# print("The regex is:  ")
+	# 	# print(regex_filename_analysis)
+	# 	# print(regex_filename_analysis.group('prefixLetters'))
+	# 	# print(regex_filename_analysis.group('leadZeroes'))
+	# 	# print(regex_filename_analysis.group('numbering'))
+	# 	# print(regex_filename_analysis.group('extension'))		
 
-		if regex_filename_analysis.group('extension') == (regex_filename_analysis.group('extension') + "_copy"): # if the extension is string .ext_copy (rather than just .ext)
-			altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + regex_filename_analysis.group('numbering') + regex_filename_analysis.group('extension')
-			copytag_stripped_filenames.append(altered_fileName)
-			# generate new file paths based on "_copy" stripped filenames
-			copytag_stripped_filePaths.append(os.path.join(user_input_folder,altered_fileName))
-		else:
-			# re-add the file name to the file name list
-			copytag_stripped_filenames.append(filename)
-			# re-add the file path to file path list
-			copytag_stripped_filePaths.append(os.path.join(user_input_folder,filename))
+	# 	if regex_filename_analysis.group('extension') == (regex_filename_analysis.group('extension') + "_copy"): # if the extension is string .ext_copy (rather than just .ext)
 
-	print("copytag_stripped_filenames")
-	print(copytag_stripped_filenames)
-	print("copytag_stripped_filePaths")
-	print(copytag_stripped_filePaths)
+	# 		# re-add the file name to the file name list
+	# 		copytag_stripped_filenames.append(filename)
+	# 		# re-add the file path to file path list
+	# 		copytag_stripped_filePaths.append(os.path.join(user_input_folder,filename))
+	# 		pass
+	# 	else:
+	# 		# re-add the file name to the file name list
+	# 		copytag_stripped_filenames.append(filename)
+	# 		# re-add the file path to file path list
+	# 		copytag_stripped_filePaths.append(os.path.join(user_input_folder,filename))
+
+	# print("copytag_stripped_filenames")
+	# print(copytag_stripped_filenames)
+	# print("copytag_stripped_filePaths")
+	# print(copytag_stripped_filePaths)
 
 	# once that's done there should be "_copy" stripped file names and file paths
 	# re-name the files in the directory
 	# enable/disable for testing
 	# rename_files(file_list_final,copytag_stripped_filePaths)
 
-def rename_files(old_file_path,new_file_path):
+	try:
+		for filepath in filePath_list_final:
+			file_current_index = filePath_list_final.index(filepath)
+			if filepath == shadow_filepath_list[file_current_index]:
+				pass # continue on if the paths are the same
+			elif filepath is not shadow_filepath_list[file_current_index]:
+				# if they are not the same
+				rename_single_filePath(filepath,shadow_filepath_list[file_current_index])
+	except Exception as e:
+		print("You have an error in strip_copy_tag function.")
+		print(e)
+		print("\n\n")
+	else:
+		pass
+
+
+def rename_single_filePath(old_filepath,new_file_path):
+	# this function takes a passed string of a file path not a filename
+	# since it uses shutil.move(old_path,new_path)
+	try:
+			if old_filepath == new_file_path:
+				pass
+			else:
+				shutil.move(old_filepath,new_file_path)
+	except Exception as e:
+		print("There is an error in rename_single_filePath function.  The error is:  ")
+		print(e)
+		print("\n\n")
+	else:
+		pass
+
+def rename_files(old_file_path_list,new_file_path_list):
 	# use shutil.move to rename the file
 	# shutil.move(old_path,new_path)
+	# this works with an entire list of file paths and is not suitable for fixing individual files
 
 	try:
-		for item in old_file_path:
+		for item in old_file_path_list:
 		# item is the old file path
-			get_item_index = old_file_path.index(item)
+			get_item_index = old_file_path_list.index(item)
 			
-			if item == new_file_path[get_item_index]:
+			if item == new_file_path_list[get_item_index]:
 				print("The old file path was not replaced:  %s" % (item))
 				pass
 			else:
 				print("The old file path replaced:  %s" % (item))
-				print("The new file path is:  %s" % (new_file_path[get_item_index]))
-				shutil.move(item,new_file_path[get_item_index])
+				print("The new file path is:  %s" % (new_file_path_list[get_item_index]))
+				shutil.move(item,new_file_path_list[get_item_index])
 	except Exception as e:
 		print("There is an error in rename_files function.  The error is:  ")
 		print(e)
@@ -382,7 +419,7 @@ print(filePath_list_final)
 rename_files(proc_filePath_list,filePath_list_final)
 
 # strip the "_copy" tags
-strip_copy_tag(file_list_final)
+# strip_copy_tag(file_list_final)
 
 #####################################
 # END EXECUTION
