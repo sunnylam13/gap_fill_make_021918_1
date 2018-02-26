@@ -239,6 +239,10 @@ def create_gap(proc_file_list,proc_filePath_list):
 				file_list_final.append(proc_file_list[x])
 				print("The unchanged filename is:  %s\n" % proc_file_list[x])
 
+				# add a copy to the shadow file list
+				# this solves the index out of range error later on with strip_copy_tag()
+				shadow_filename_list.append(proc_file_list[x])
+
 			for x in range(convert_user_num_to_index_pos + 1,len(proc_file_list)): # loop from user chosen file name to the end of the list
 				# testing
 				print("The file analyzed is:  %s" % proc_file_list[x])
@@ -287,52 +291,11 @@ def create_gap(proc_file_list,proc_filePath_list):
 
 def strip_copy_tag(filePath_list_final):
 
-	# print("strip_copy_tag --> file_list_final")
-	# print(file_list_final)
-
-	# copytag_stripped_filenames = []
-	# copytag_stripped_filePaths = []
-
-	# generate "_copy" stripped filenames
-
-	# for filename in file_list_final:
-	# 	print(filename)
-	# 	regex_filename_analysis = prefix_regex2.search(filename)
-	# 	print(regex_filename_analysis)
-
-	# for filename in file_list_final:
-	# 	file_current_index = file_list_final.index(filename)
-	# 	print(file_current_index)
-	# 	regex_filename_analysis = prefix_regex2.search(filename)
-	# 	# print("The regex is:  ")
-	# 	# print(regex_filename_analysis)
-	# 	# print(regex_filename_analysis.group('prefixLetters'))
-	# 	# print(regex_filename_analysis.group('leadZeroes'))
-	# 	# print(regex_filename_analysis.group('numbering'))
-	# 	# print(regex_filename_analysis.group('extension'))		
-
-	# 	if regex_filename_analysis.group('extension') == (regex_filename_analysis.group('extension') + "_copy"): # if the extension is string .ext_copy (rather than just .ext)
-
-	# 		# re-add the file name to the file name list
-	# 		copytag_stripped_filenames.append(filename)
-	# 		# re-add the file path to file path list
-	# 		copytag_stripped_filePaths.append(os.path.join(user_input_folder,filename))
-	# 		pass
-	# 	else:
-	# 		# re-add the file name to the file name list
-	# 		copytag_stripped_filenames.append(filename)
-	# 		# re-add the file path to file path list
-	# 		copytag_stripped_filePaths.append(os.path.join(user_input_folder,filename))
-
-	# print("copytag_stripped_filenames")
-	# print(copytag_stripped_filenames)
-	# print("copytag_stripped_filePaths")
-	# print(copytag_stripped_filePaths)
-
-	# once that's done there should be "_copy" stripped file names and file paths
-	# re-name the files in the directory
-	# enable/disable for testing
-	# rename_files(file_list_final,copytag_stripped_filePaths)
+	# testing
+	# print("filePath_list_final is")
+	# print(filePath_list_final)
+	# print("shadow_filepath_list")
+	# print(shadow_filepath_list)
 
 	try:
 		for filepath in filePath_list_final:
@@ -402,24 +365,24 @@ def rename_files(old_file_path_list,new_file_path_list):
 # Scan the user input folder for a list of numbered files.  Store all the file names in a new list.
 analyze_files(user_input_folder,filename_list,file_path_list)
 # testing
-print("proc_file_list is:  ")
-print(proc_file_list)
-print("proc_filePath_list is:  ")
-print(proc_filePath_list)
+# print("proc_file_list is:  ")
+# print(proc_file_list)
+# print("proc_filePath_list is:  ")
+# print(proc_filePath_list)
 
 create_gap(proc_file_list,proc_filePath_list)
 # testing
-print("file_list_final is:  ")
-print(file_list_final)
-print("filePath_list_final is:  ")
-print(filePath_list_final)
+# print("file_list_final is:  ")
+# print(file_list_final)
+# print("filePath_list_final is:  ")
+# print(filePath_list_final)
 
 # original and new file names and paths have been generated
 # all that remains is to execute the change
 rename_files(proc_filePath_list,filePath_list_final)
 
 # strip the "_copy" tags
-# strip_copy_tag(file_list_final)
+strip_copy_tag(filePath_list_final)
 
 #####################################
 # END EXECUTION
