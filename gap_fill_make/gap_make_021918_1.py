@@ -200,6 +200,10 @@ def create_gap(proc_file_list,proc_filePath_list):
 				file_list_final.append(proc_file_list[x])
 				print("The unchanged filename is:  %s\n" % proc_file_list[x])
 
+				# add a copy to the shadow file list
+				# this solves the index out of range error later on with strip_copy_tag()
+				shadow_filename_list.append(proc_file_list[x])
+
 			# Go to the index position of the number user entered.
 			# start a loop here that changes current index position file name and all file names after by 1
 			for x in range(convert_user_num_to_index_pos,len(proc_file_list)): # loop from user chosen file name to the end of the list
@@ -218,11 +222,14 @@ def create_gap(proc_file_list,proc_filePath_list):
 				# print(regex_filename_analysis.group('extension'))
 
 				# use (x+2) because (x + 1) would only give us back the current file index
-				altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension')
+				altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension') + "_copy" # the temporary file name to use to avoid error
+				shadow_altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension') # the file name as it should be, for the final naming phase
 				
 				# append that altered_fileName to file_list_final
 				file_list_final.append(altered_fileName)
 				print("The altered_fileName is:  %s\n" % altered_fileName)
+
+				shadow_filename_list.append(shadow_altered_fileName)
 
 		except Exception as e:
 			print("There is an error in creating a gap before file number %i" % user_selected_num)
@@ -258,9 +265,6 @@ def create_gap(proc_file_list,proc_filePath_list):
 				# print(str(convert_user_num_to_index_pos + 1))
 				# print(regex_filename_analysis.group('extension'))
 
-				# use (x+2) because (x + 1) would only give us back the current file index
-				# altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension')
-				# variation 1
 				altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension') + "_copy" # the temporary file name to use to avoid error
 				shadow_altered_fileName = regex_filename_analysis.group('prefixLetters') + regex_filename_analysis.group('leadZeroes') + str(x + 2) + regex_filename_analysis.group('extension') # the file name as it should be, for the final naming phase
 				
