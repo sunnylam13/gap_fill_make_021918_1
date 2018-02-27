@@ -296,4 +296,8 @@ You'll have to use regex sub to remove it manually.
 
 > changed to (?P<numbering>[1-90]*) because if you don't add 0, then 0015 works however 001500 fails
 
+## Monday, February 26, 2018 10:07 PM
+
+All that remains at this point is to re-enable user input in the program and disable the test code statements and everything is good to go.
+
 
